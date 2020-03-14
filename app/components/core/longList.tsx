@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ScrollView, View, Image, Text } from 'react-native';
-import { Longlist, LonglistProps } from 'beeshell';
+import { ScrollView, View, Image, Text, RefreshControl } from 'react-native';
+import { Button } from 'beeshell';
 import { Link } from 'react-router-native';
 import { styles } from '../../style/longList';
 import _ from 'lodash';
@@ -8,13 +8,15 @@ import _ from 'lodash';
 interface Props {
     data: any[],
     total: number,
-    onRefresh: () => void,
-    onEndfresh: () => void
+    onRefresh: () => Promise<{success: boolean, data: [], total: number}>,
+    onEndReached?: () => void
     renderItem?: ({item, index}) => React.ReactElement,
     nameKey: string,
     onItemClick?: (uri) => void,
     ref?: (c) => void
 }
+
+const { useState } = React;
 
 function LongListComponent(props: Props) {
     const isCourse = !props.onItemClick;
@@ -22,7 +24,8 @@ function LongListComponent(props: Props) {
         to: '',
         onTouchEnd: props.onItemClick
     };
-    const renderItem = ({item, index}) => {
+    const [refreshing, setRefreshing] = useState(false);
+    const renderItem = (item, index) => {
         if (isCourse) {
             linkProps.to = `/course/${item.courseId}`;
             delete linkProps.onTouchEnd;
@@ -33,7 +36,7 @@ function LongListComponent(props: Props) {
             delete linkProps.to;
         }
         return (
-            <Link { ...linkProps } >
+            <Link key={'course' + index} { ...linkProps } >
                 <View style={styles.itemWrapper}>
                     {
                         isCourse && <Image style={styles.imgWrapper} source={{uri: item.image_src && item.image_src}} />
@@ -50,16 +53,18 @@ function LongListComponent(props: Props) {
             </Link>
         )
     }
-    const longListProps: LonglistProps = {
-        data: props.data,
-        total: props.total,
-        onEndReached: props.onEndfresh,
-        onRefresh: props.onRefresh,
-        renderItem: props.renderItem || renderItem
-    }
     return (
-        <ScrollView style={styles.longListWrapper}>
-            <Longlist ref={props.ref} { ...longListProps } />
+        <ScrollView style={styles.longListWrapper} refreshControl={<RefreshControl
+            enabled
+            colors={['#ccc']}
+            progressViewOffset={50}
+            refreshing={refreshing}
+            onRefresh={props.onRefresh}
+            />}>
+            {
+                props.data.map(renderItem)
+            }
+            { props.data.length < props.total ? <Button type='text' onPress={props.onEndReached} >查看更多</Button> : <Text style={{textAlign: 'center'}} >没有更多数据</Text>}
         </ScrollView>
     )
 }

@@ -14,21 +14,22 @@ function AdSwiper(props) {
         style={style}
         bullets
         swipe
+        autoplay
     >
         <View>
-            <Image style={style} source={{uri: 'http://192.168.43.136:8888/server/static/img/6727c9f7fa9c6bd27bd5ba6c93748571.jpg'}} />
+            <Image style={style} source={{uri: 'http://192.168.43.136:8888/server/static/img/ba1e68c4d92f10ade695d810416cd5c1.jpg'}} />
         </View>
         <View>
-            <Image style={style} source={{uri: 'http://192.168.43.136:8888/server/static/img/4b46f9e1c30a220f5a4e28ef239f9999.jpg'}} />
+            <Image style={style} source={{uri: 'http://192.168.43.136:8888/server/static/img/6f752e75912e50b24837856fc129de82.jpg'}} />
         </View>
         <View>
-            <Image style={style} source={{uri: 'http://192.168.43.136:8888/server/static/img/4040e9bc8ef03d61ffbf7b7fdbe00199.jpg'}} />
+            <Image style={style} source={{uri: 'http://192.168.43.136:8888/server/static/img/ba1e68c4d92f10ade695d810416cd5c1.jpg'}} />
         </View>
         <View>
-            <Image style={style} source={{uri: 'http://192.168.43.136:8888/server/static/img/1546314a0033afe1b81bb55a13bdfd20.jpg'}} />
+            <Image style={style} source={{uri: 'http://192.168.43.136:8888/server/static/img/1d772e74d586aade27e0dd7ef4fb3e07.jpg'}} />
         </View>
         <View>
-            <Image style={style} source={{uri: 'http://192.168.43.136:8888/server/static/img/077b894a44f1cb52002bf15b39e4443b.jpeg'}} />
+            <Image style={style} source={{uri: 'http://192.168.43.136:8888/server/static/img/16712d4ed1556f99d32ba2b669c3dbbc.jpg'}} />
         </View>
     </Carousel>
 }

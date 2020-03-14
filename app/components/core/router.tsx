@@ -4,6 +4,7 @@ import { Index } from '../../pages/index';
 import { Text, ScrollView } from 'react-native';
 
 function Router(props) {
+    const { goLogin } = props;
     return (
         <>
             <Route path='/testpaper' exact>
@@ -24,7 +25,7 @@ function Router(props) {
                 
             </Route>
             <Route path='/' exact>
-                <Index />
+                <Index goLogin={goLogin} />
             </Route>
         </>
     )

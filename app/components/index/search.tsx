@@ -8,11 +8,8 @@ import { styles } from '../../style/index';
 function SearchBar() {
     const history = useHistory();
     return (
-        <Link style={styles.searchBarWrapper} to='/search'>
-            <View style={styles.searchWrapper} onTouchEnd={(e) => {
-                e.stopPropagation()
-                history.push('/search')
-            }} >
+        <Link style={styles.searchBarWrapper} to='/search/0'>
+            <View style={styles.searchWrapper}>
                 <Icon name='search1' />
                 <Text>搜索课程</Text>
             </View>

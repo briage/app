@@ -7,7 +7,8 @@ const styles = StyleSheet.create({
     itemWrapper: {
         display: 'flex',
         flexDirection: 'row',
-        margin: 5
+        margin: 5,
+        marginBottom: 10
     },
     imgWrapper: {
         height: 70,
@@ -30,6 +31,11 @@ const styles = StyleSheet.create({
     smallFont: {
         color: '#ccc',
         fontSize: 13,
+    },
+    colImgWrapper: {
+        width: '100%',
+        height: 70,
+        borderRadius: 5
     }
 });
 
