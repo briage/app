@@ -21,7 +21,8 @@ function PageLayout(props) {
     const {height} = Dimensions.get('window');
     const [state, dispatch] = useReducer(reducer, {
         isUpdate: false,
-        visible: false
+        visible: false,
+        userInfo: {}
     });
     const goLogin = (isUpdate?: boolean) => {
         dispatch({key: 'visible', value: true})
@@ -34,7 +35,7 @@ function PageLayout(props) {
         <ScrollView>
             <NativeRouter>
                 <StatusBar backgroundColor='#fff' barStyle='dark-content' ></StatusBar>
-                <RegistorLogin goLogin={goLogin} onClose={onClose} isUpdate={state.isUpdate} visible={state.visible} />
+                <RegistorLogin goLogin={goLogin} userInfo={state.userInfo} onClose={onClose} userInfoChange={(value) => dispatch({key: 'userInfo', value})} isUpdate={state.isUpdate} visible={state.visible} />
                 <Route path='/'>
                     <History />
                 </Route>
@@ -46,11 +47,11 @@ function PageLayout(props) {
 
                     </Route>
                     <Route path='/course/:courseId' exact>
-                        <Course goLogin={goLogin} />
+                        <Course goLogin={goLogin} userInfo={state.userInfo} />
                     </Route>
                     <Route path='/'>
                         <View style={{height}}>
-                            <Router goLogin={goLogin} />
+                            <Router goLogin={goLogin} userInfo={state.userInfo} />
                             <FooterBar />
                         </View>
                     </Route>

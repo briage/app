@@ -5,21 +5,11 @@ import { SearchBar } from '../components/index/search';
 import { Button } from 'beeshell';
 import { styles } from '../style';
 import { FreeList } from '../components/index/freeList';
-
-const { useReducer } = React;
-
-function reducer(state, action) {
-    return action;
-}
+import { SelfSend } from '../components/index/selfSend';
 
 function Index(props) {
-    const [userInfo, dispatch] = useReducer(reducer, {});
-    setTimeout(async () => {
-        const userInfoString = await AsyncStorage.getItem('userInfo');
-        if (userInfoString && !userInfo.userId) {
-            dispatch(JSON.parse(userInfoString));
-        }
-    }, 500);
+    const { goLogin, userInfo } = props;
+    console.log('index', userInfo)
     return (
         <ScrollView>
             <SearchBar />
@@ -42,8 +32,9 @@ function Index(props) {
                 </View>
             </View>
             <FreeList />
-            <Button onPress={props.goLogin.bind(this, false)}>登录</Button>
-            <Button onPress={props.goLogin.bind(this, true)}>userInfo</Button>
+            <SelfSend userInfo={userInfo} />
+            <Button onPress={goLogin.bind(this, false)}>登录</Button>
+            <Button onPress={goLogin.bind(this, true)}>userInfo</Button>
         </ScrollView>
     )
 }

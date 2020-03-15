@@ -62,9 +62,9 @@ function LongListComponent(props: Props) {
             onRefresh={props.onRefresh}
             />}>
             {
-                props.data.map(renderItem)
+                props.data && props.data.map(renderItem)
             }
-            { props.data.length < props.total ? <Button type='text' onPress={props.onEndReached} >查看更多</Button> : <Text style={{textAlign: 'center'}} >没有更多数据</Text>}
+            { props.data && (props.data.length < props.total) ? <Button type='text' onPress={props.onEndReached} >查看更多</Button> : <Text style={{textAlign: 'center'}} >没有更多数据</Text>}
         </ScrollView>
     )
 }

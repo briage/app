@@ -9,11 +9,10 @@ import { Radio } from '../components/core/radio';
 import { SEX, LABELS } from '../config/meta';
 import { MultifySelect } from '../components/core/multifySelect';
 import { request } from '../util';
-
-const { useReducer, useEffect } = React;
+import { config } from '../config/default';
 
 interface State {
-    phone: number,
+    phone: string,
     password: string,
     userName,
     selfset: {[key: string]:true},
@@ -26,45 +25,16 @@ interface Props {
     visible: boolean,
     onClose: () => void,
     goLogin: (isUpdate?: boolean) => void,
-    isUpdate?: boolean
-}
-
-function reducer(state, action) {
-    if (action.key) {
-        const newState = _.cloneDeep(state);
-        newState[action.key] = action.value;
-        return newState;
-    } else {
-        return action;
-    }
-    
-}
-
-const initalState: State = {
-    phone: undefined,
-    password: '',
-    userName: '',
-    selfset: {},
-    sex: 0,
-    avatar: '',
-    type: 1,
+    isUpdate?: boolean,
+    userInfoChange: (value) => any,
+    userInfo: State
 }
 
 function RegistorLogin(props: Props) {
-    const [state, dispatch] = useReducer(reducer, initalState)
-    const { visible, onClose, goLogin, isUpdate } = props;
-    if (isUpdate && !state.userId) {
-        AsyncStorage.getItem('userInfo').then(res => {
-            if (res) {
-                const userInfo = JSON.parse(res);
-                userInfo.selfset = userInfo.selfset || {};
-                dispatch(userInfo);
-            }
-        })
-    } 
+    const { visible, onClose, goLogin, isUpdate, userInfoChange, userInfo } = props;
     
     const handleLogin = () => {
-        const newState = _.cloneDeep(state);
+        const newState = _.cloneDeep(userInfo);
         request('/login', newState)
             .then(res => {
                 if (res.success) {
@@ -73,35 +43,43 @@ function RegistorLogin(props: Props) {
                     } else {
                         goLogin(true);
                     }
+                    userInfoChange(res.data)
                     AsyncStorage.setItem('userInfo', JSON.stringify(res.data));
                 }
             })
     }
     const handleUpdateInfo = async () => {
-        if (!state.userId) {
+        if (!userInfo.userId) {
             Alert.alert('请重新登录');
             goLogin(false);
             return;
         }
-        const res = await request('/updateUserInfo', state);
+        console.log(userInfo)
+        const res = await request('/updateUserInfo', userInfo);
         if (res.success) {
             onClose();
+            userInfoChange(res.data);
             AsyncStorage.setItem('userInfo', JSON.stringify(res.data));
         }
     }
     const handleChange = (key, value) => {
-        console.log(value)
+        const newUserInfo = _.cloneDeep(userInfo);
         if (key === 'selfset') {
-            const selfset = _.cloneDeep(state.selfset);
-            console.log(selfset)
+            let {selfset} = newUserInfo
+            if (!selfset) {
+                selfset = {};
+            }
             if (selfset[value]) {
                 delete selfset[value];
             } else {
                 selfset[value] = true;
             }
-            value = selfset;
+            console.log(selfset)
+            newUserInfo.selfset = selfset;
+        } else {
+            newUserInfo[key] = value
         }
-        dispatch({key, value});
+        userInfoChange(newUserInfo);
     }
     return (
         <Modal
@@ -120,12 +98,12 @@ function RegistorLogin(props: Props) {
                         </View>
                     </View>,
                     <View key='content' style={styles.contentWrapper}>
-                        <InputForm type='text' key='userName' value={state.userName} onChange={handleChange.bind(this, 'userName')} placeholder='昵称' />
-                        <Radio key='sex' value={state.sex} onChange={handleChange.bind(this, 'sex')} options={SEX} />
+                        <InputForm type='text' key='userName' value={userInfo.userName} onChange={handleChange.bind(this, 'userName')} placeholder='昵称' />
+                        <Radio key='sex' value={userInfo.sex} onChange={handleChange.bind(this, 'sex')} options={SEX} />
                         <View style={styles.subTitleWrapper}>
                             <Text style={styles.subTitle}>私人订制</Text><Text style={styles.tip}>有利于精准推送你所需要的课程</Text>
                         </View>
-                        <MultifySelect key='selfset' value={state.selfset} onChange={handleChange.bind(this, 'selfset')} options={LABELS} />
+                        <MultifySelect key='selfset' value={userInfo.selfset} onChange={handleChange.bind(this, 'selfset')} options={LABELS} />
                     </View>
                 ]
                 :
@@ -138,8 +116,8 @@ function RegistorLogin(props: Props) {
                     </View>,
                     <View key='content-wrapper' style={styles.contentWrapper}>
                         <Text key='tip' style={styles.tip}>未注册的手机号将自动注册</Text>
-                        <InputForm type='text' key='phone' maxLength={11} value={state.phone} onChange={handleChange.bind(this, 'phone')} placeholder='手机号' />
-                        <InputForm type='text' autoComplete='password' key='password' value={state.password} onChange={handleChange.bind(this, 'password')} placeholder='密码' />
+                        <InputForm type='text' key='phone' maxLength={11} value={userInfo.phone} onChange={handleChange.bind(this, 'phone')} placeholder='手机号' />
+                        <InputForm type='text' autoComplete='password' key='password' value={userInfo.password} onChange={handleChange.bind(this, 'password')} placeholder='密码' />
                         <Button style={styles.loginBtn} onPress={handleLogin} type='info'>登录/注册</Button>
                     </View>
                 ]
