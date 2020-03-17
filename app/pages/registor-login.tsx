@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Modal, AsyncStorage, Alert } from 'react-native';
+import { View, Text, Modal, AsyncStorage, Alert, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import _ from 'lodash';
 import { InputForm } from '../components/core/input';
@@ -9,9 +9,9 @@ import { Radio } from '../components/core/radio';
 import { SEX, LABELS } from '../config/meta';
 import { MultifySelect } from '../components/core/multifySelect';
 import { request } from '../util';
-import { config } from '../config/default';
+import { Upload } from '../components/core/upload';
 
-interface State {
+interface UserInfo {
     phone: string,
     password: string,
     userName,
@@ -27,14 +27,16 @@ interface Props {
     goLogin: (isUpdate?: boolean) => void,
     isUpdate?: boolean,
     userInfoChange: (value) => any,
-    userInfo: State
+    userInfo: UserInfo
 }
+
+const { useState, useEffect } = React;
 
 function RegistorLogin(props: Props) {
     const { visible, onClose, goLogin, isUpdate, userInfoChange, userInfo } = props;
-    
+    const [user, setUser] = useState(userInfo);
     const handleLogin = () => {
-        const newState = _.cloneDeep(userInfo);
+        const newState = _.cloneDeep(user);
         request('/login', newState)
             .then(res => {
                 if (res.success) {
@@ -44,7 +46,6 @@ function RegistorLogin(props: Props) {
                         goLogin(true);
                     }
                     userInfoChange(res.data)
-                    AsyncStorage.setItem('userInfo', JSON.stringify(res.data));
                 }
             })
     }
@@ -54,18 +55,16 @@ function RegistorLogin(props: Props) {
             goLogin(false);
             return;
         }
-        console.log(userInfo)
-        const res = await request('/updateUserInfo', userInfo);
+        const res = await request('/updateUserInfo', user);
         if (res.success) {
             onClose();
             userInfoChange(res.data);
-            AsyncStorage.setItem('userInfo', JSON.stringify(res.data));
         }
     }
     const handleChange = (key, value) => {
-        const newUserInfo = _.cloneDeep(userInfo);
+        const newUserInfo = _.cloneDeep(user);
         if (key === 'selfset') {
-            let {selfset} = newUserInfo
+            let {selfset} = (newUserInfo as {selfset: {}})
             if (!selfset) {
                 selfset = {};
             }
@@ -79,12 +78,18 @@ function RegistorLogin(props: Props) {
         } else {
             newUserInfo[key] = value
         }
-        userInfoChange(newUserInfo);
+        setUser(newUserInfo)
+    }
+    const handleImagePicker = (uri) => {
+        const newUserInfo = _.cloneDeep(user);
+        newUserInfo.avatar = uri;
+        setUser(newUserInfo);
     }
     return (
         <Modal
             visible={visible}
             animationType='slide'
+            onRequestClose={onClose}
         >
             {
                 isUpdate ?
@@ -98,12 +103,13 @@ function RegistorLogin(props: Props) {
                         </View>
                     </View>,
                     <View key='content' style={styles.contentWrapper}>
-                        <InputForm type='text' key='userName' value={userInfo.userName} onChange={handleChange.bind(this, 'userName')} placeholder='昵称' />
-                        <Radio key='sex' value={userInfo.sex} onChange={handleChange.bind(this, 'sex')} options={SEX} />
+                        <Upload onSubmit={handleImagePicker} type='photo' avatar={user.avatar} />
+                        <InputForm type='text' key='userName' value={user.userName} onChange={handleChange.bind(this, 'userName')} placeholder='昵称' />
+                        <Radio key='sex' value={user.sex} onChange={handleChange.bind(this, 'sex')} options={SEX} />
                         <View style={styles.subTitleWrapper}>
                             <Text style={styles.subTitle}>私人订制</Text><Text style={styles.tip}>有利于精准推送你所需要的课程</Text>
                         </View>
-                        <MultifySelect key='selfset' value={userInfo.selfset} onChange={handleChange.bind(this, 'selfset')} options={LABELS} />
+                        <MultifySelect key='selfset' value={user.selfset || {}} onChange={handleChange.bind(this, 'selfset')} options={LABELS} />
                     </View>
                 ]
                 :
@@ -116,8 +122,8 @@ function RegistorLogin(props: Props) {
                     </View>,
                     <View key='content-wrapper' style={styles.contentWrapper}>
                         <Text key='tip' style={styles.tip}>未注册的手机号将自动注册</Text>
-                        <InputForm type='text' key='phone' maxLength={11} value={userInfo.phone} onChange={handleChange.bind(this, 'phone')} placeholder='手机号' />
-                        <InputForm type='text' autoComplete='password' key='password' value={userInfo.password} onChange={handleChange.bind(this, 'password')} placeholder='密码' />
+                        <InputForm type='text' key='phone' maxLength={11} value={user.phone} onChange={handleChange.bind(this, 'phone')} placeholder='手机号' />
+                        <InputForm type='text' key='password' value={user.password} onChange={handleChange.bind(this, 'password')} placeholder='密码' />
                         <Button style={styles.loginBtn} onPress={handleLogin} type='info'>登录/注册</Button>
                     </View>
                 ]

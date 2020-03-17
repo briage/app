@@ -2,6 +2,8 @@ import * as React from 'react';
 import { NativeRouter, Route, Switch } from 'react-router-native';
 import { Index } from '../../pages/index';
 import { Text, ScrollView } from 'react-native';
+import { MyInfo } from '../../pages/myInfo';
+import { CourseTable } from '../../pages/course-table';
 
 function Router(props) {
     const { goLogin, userInfo } = props;
@@ -13,15 +15,10 @@ function Router(props) {
                 </ScrollView>
             </Route>
             <Route path='/table' exact>
-                <ScrollView>
-                <Text>课程表</Text>
-                </ScrollView>
-                
+                <CourseTable userInfo={userInfo} />
             </Route>
             <Route path='/myInfo' exact>
-                <ScrollView>
-                <Text>个人中心</Text>
-                </ScrollView>
+                <MyInfo userInfo={userInfo} goLogin={goLogin} />
                 
             </Route>
             <Route path='/' exact>

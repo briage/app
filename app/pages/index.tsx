@@ -2,14 +2,15 @@ import * as React from 'react';
 import { ScrollView, View, Text, AsyncStorage } from 'react-native';
 import { AdSwiper } from '../components/index/ad-swiper';
 import { SearchBar } from '../components/index/search';
-import { Button } from 'beeshell';
+import Orientation from 'react-native-orientation';
 import { styles } from '../style';
 import { FreeList } from '../components/index/freeList';
 import { SelfSend } from '../components/index/selfSend';
 
 function Index(props) {
-    const { goLogin, userInfo } = props;
-    console.log('index', userInfo)
+    const { goLogin } = props;
+    const userInfo = props.userInfo || {}
+    Orientation.lockToPortrait();
     return (
         <ScrollView>
             <SearchBar />
@@ -33,8 +34,6 @@ function Index(props) {
             </View>
             <FreeList />
             <SelfSend userInfo={userInfo} />
-            <Button onPress={goLogin.bind(this, false)}>登录</Button>
-            <Button onPress={goLogin.bind(this, true)}>userInfo</Button>
         </ScrollView>
     )
 }

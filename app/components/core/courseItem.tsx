@@ -6,7 +6,7 @@ import { styles } from '../../style/longList';
 interface Props {
     uri: string,
     title: string,
-    money: number,
+    money?: number,
     progress?: number,
     link: string,
     usedNum?: number
@@ -21,10 +21,10 @@ function ColCourseItem(props: Props) {
                     <Image style={styles.colImgWrapper} source={{uri}} />
                 </View>
                 <View>
-                    <Text style={styles.title}> {title} </Text>
+                    <Text style={money !== undefined ? styles.title : styles.smallFont}> {title} </Text>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                        <Text style={styles.money}> {money ? `¥${money}` : '免费'} </Text>
-                        <Text style={styles.smallFont}>{`${usedNum}人最近报名`}</Text>
+                        { money !== undefined &&  <Text style={styles.money}> {money ? `¥${money}` : '免费'} </Text>}
+                        { usedNum !== undefined && <Text style={styles.smallFont}>{`${usedNum}人最近报名`}</Text>}
                     </View>
                     { progress !== undefined && <Text style={styles.smallFont}>{progress ? `已学${progress}%` : '未开始'}</Text>}
                 </View>

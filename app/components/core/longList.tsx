@@ -8,7 +8,7 @@ import _ from 'lodash';
 interface Props {
     data: any[],
     total: number,
-    onRefresh: () => Promise<{success: boolean, data: [], total: number}>,
+    onRefresh?: () => Promise<{success: boolean, data: [], total: number}>,
     onEndReached?: () => void
     renderItem?: ({item, index}) => React.ReactElement,
     nameKey: string,

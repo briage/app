@@ -9,7 +9,7 @@ import { Course } from './pages/course';
 import { RegistorLogin } from './pages/registor-login';
 import _ from 'lodash';
 
-const { useReducer, useRef } = React;
+const { useReducer, useEffect } = React;
 
 function reducer(state, action) {
     const newState = _.cloneDeep(state);
@@ -24,6 +24,20 @@ function PageLayout(props) {
         visible: false,
         userInfo: {}
     });
+    useEffect(() => {
+        if (props.init) {
+            AsyncStorage.getItem('userInfo')
+            .then(value => {
+                const userInfo = JSON.parse(value);
+                if (userInfo.userId) {
+                    userInfoChange(JSON.parse(value));
+                } else {
+                    userInfoChange({userId: '', selfset: {}, avatar: '', password: '', userName: '', sex: '', phone: ''});
+                }
+                props.onLock();
+            })
+        }
+    })
     const goLogin = (isUpdate?: boolean) => {
         dispatch({key: 'visible', value: true})
         if (isUpdate !== undefined) {
@@ -31,11 +45,16 @@ function PageLayout(props) {
         }
     };
     const onClose = () => dispatch({key: 'visible', value: false});
+    const userInfoChange = async (value) => {
+        await AsyncStorage.setItem('userInfo', JSON.stringify(value))
+        await dispatch({key: 'userInfo', value});
+        
+    }
     return (
         <ScrollView>
             <NativeRouter>
                 <StatusBar backgroundColor='#fff' barStyle='dark-content' ></StatusBar>
-                <RegistorLogin goLogin={goLogin} userInfo={state.userInfo} onClose={onClose} userInfoChange={(value) => dispatch({key: 'userInfo', value})} isUpdate={state.isUpdate} visible={state.visible} />
+                <RegistorLogin goLogin={goLogin} userInfo={state.userInfo} onClose={onClose} userInfoChange={userInfoChange} isUpdate={state.isUpdate} visible={state.visible} />
                 <Route path='/'>
                     <History />
                 </Route>
@@ -47,7 +66,7 @@ function PageLayout(props) {
 
                     </Route>
                     <Route path='/course/:courseId' exact>
-                        <Course goLogin={goLogin} userInfo={state.userInfo} />
+                        <Course goLogin={goLogin} userInfoChange={userInfoChange} userInfo={state.userInfo} />
                     </Route>
                     <Route path='/'>
                         <View style={{height}}>

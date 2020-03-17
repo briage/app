@@ -21,12 +21,12 @@ const styles = StyleSheet.create({
         width: '65%'
     },
     title: {
-        fontSize: 20,
-        height: 50
+        fontSize: 16,
+        height: 40
     },
     money: {
         color: '#f40',
-        fontSize: 18,
+        fontSize: 16,
     },
     smallFont: {
         color: '#ccc',
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     },
     colImgWrapper: {
         width: '100%',
-        height: 70,
+        height: 90,
         borderRadius: 5
     }
 });

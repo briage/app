@@ -32,7 +32,9 @@ function SelfSend(props: Props) {
         offset: 0,
         total: 0
     })
-    
+    useEffect(() => {
+        onFetchCourseList(0)
+    }, [])
     const onFetchCourseList = (offset) => {
         const queryData = {
             offset,
@@ -48,7 +50,8 @@ function SelfSend(props: Props) {
                 if (res.success) {
                     if (offset) {
                         const listData = _.cloneDeep(state.listData)
-                        newState.listData = listData.push(...res.data);
+                        listData.push(...res.data);
+                        newState.listData = listData;
                     } else {
                         newState.listData = res.data;
                     }
@@ -58,13 +61,15 @@ function SelfSend(props: Props) {
                 return res;
             })
     }
-    onFetchCourseList(0);
     const lognlistProps: LongListProps = {
         data: state.listData,
         total: state.total,
         nameKey: 'courseName',
         onRefresh: () => onFetchCourseList(0),
-        onEndReached: () => onFetchCourseList(state.offset + 1)
+        onEndReached: () => {
+            const newState = _.cloneDeep(state);
+            onFetchCourseList(newState.offset + 1);
+        }
     }
     return (
         <ScrollView contentContainerStyle={{backgroundColor: '#fff', marginTop: 10}}>
