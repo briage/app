@@ -2,7 +2,8 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     radioWrapper: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        flexWrap: 'wrap'
     },
     labelWrapper: {
         padding: 10,
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
         color: '#38f'
     },
     label: {
-        fontSize: 20,
+        fontSize: 16,
     }
 })
 

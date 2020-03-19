@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     smallFont: {
-        color: '#ccc',
+        color: '#555',
         fontSize: 13,
     },
     colImgWrapper: {

@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
         borderBottomColor: '#ccc',
         borderBottomWidth: 1,
         borderStyle: 'solid',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        zIndex: 1000
     },
     headerTitle: {
         fontSize: 22

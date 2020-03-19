@@ -35,6 +35,10 @@ const { useState, useEffect } = React;
 function RegistorLogin(props: Props) {
     const { visible, onClose, goLogin, isUpdate, userInfoChange, userInfo } = props;
     const [user, setUser] = useState(userInfo);
+    const handleShow = () => {
+        setUser(userInfo);
+        console.log(userInfo)
+    }
     const handleLogin = () => {
         const newState = _.cloneDeep(user);
         request('/login', newState)
@@ -45,7 +49,15 @@ function RegistorLogin(props: Props) {
                     } else {
                         goLogin(true);
                     }
-                    userInfoChange(res.data)
+                    const resData = res.data;
+                    if (_.isString(resData.selfset)) {
+                        const selfset = {};
+                        resData.selfset.split(/;|；/).forEach(item => {
+                            selfset[item] = true;
+                        });
+                        resData.selfset = selfset;
+                    }
+                    userInfoChange(resData)
                 }
             })
     }
@@ -58,13 +70,23 @@ function RegistorLogin(props: Props) {
         const res = await request('/updateUserInfo', user);
         if (res.success) {
             onClose();
-            userInfoChange(res.data);
+            const resData = res.data;
+            if (_.isString(resData.selfset)) {
+                const selfset = {};
+                resData.selfset.split(/;|；/).forEach(item => {
+                    if (!_.isNumber(+item) && item !== '') {
+                        selfset[item] = true;
+                    }
+                });
+                resData.selfset = selfset;
+            }
+            userInfoChange(resData);
         }
     }
     const handleChange = (key, value) => {
         const newUserInfo = _.cloneDeep(user);
         if (key === 'selfset') {
-            let {selfset} = (newUserInfo as {selfset: {}})
+            let selfset = _.cloneDeep(newUserInfo.selfset);
             if (!selfset) {
                 selfset = {};
             }
@@ -73,7 +95,6 @@ function RegistorLogin(props: Props) {
             } else {
                 selfset[value] = true;
             }
-            console.log(selfset)
             newUserInfo.selfset = selfset;
         } else {
             newUserInfo[key] = value
@@ -90,6 +111,7 @@ function RegistorLogin(props: Props) {
             visible={visible}
             animationType='slide'
             onRequestClose={onClose}
+            onShow={handleShow}
         >
             {
                 isUpdate ?

@@ -19,9 +19,12 @@ const dataType = {
 const { useReducer } = React;
 
 function reducer(state, action) {
-    const newState = _.cloneDeep(state);
-    newState[action.key] = action.value;
-    return newState;
+    if (action.key) {
+        const newState = _.cloneDeep(state);
+        newState[action.key] = action.value;
+        return newState;
+    }
+    return action;
 }
 
 function Rank(props: Props) {
@@ -52,8 +55,11 @@ function Rank(props: Props) {
                             }
                         })
                     }
-                    dispatch({key: 'selfData', value: selfRank});
-                    dispatch({key: 'rankData', value: res.data});
+                    dispatch({
+                        rankData: res.data,
+                        selfRank,
+                        type: 'praticeNum'
+                    });;
                 }
             })
     }
@@ -65,13 +71,12 @@ function Rank(props: Props) {
             onShow={onFetchRankList}
         >
             <View style={styles.modalHeaderWrapper}>
-                
                 <Text style={styles.modalHeaderTitle}>排行榜</Text>
             </View>
             <View style={styles.rankNavBar}>
-                <Text style={styles.selectItem} onPress={() => dispatch({key: 'type', value: 'praticeNum'})}>刷题榜</Text>
-                <Text style={styles.selectItem} onPress={() => dispatch({key: 'type', value: 'achievementRate'})}>学霸榜</Text>
-                <Text style={styles.selectItem} onPress={() => dispatch({key: 'type', value: 'studyTime'})}>广学榜</Text>
+                <Text style={{...styles.selectItem, ...state.type === 'praticeNum' && styles.actionTitle}} onPress={() => dispatch({key: 'type', value: 'praticeNum'})}>刷题榜</Text>
+                <Text style={{...styles.selectItem, ...state.type === 'achievementRate' && styles.actionTitle}} onPress={() => dispatch({key: 'type', value: 'achievementRate'})}>学霸榜</Text>
+                <Text style={{...styles.selectItem, ...state.type === 'studyTime' && styles.actionTitle}} onPress={() => dispatch({key: 'type', value: 'studyTime'})}>广学榜</Text>
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginLeft: 10, marginRight: 10}}>
                 <Text style={{color: '#ccc'}}>排名</Text>
@@ -95,7 +100,7 @@ function Rank(props: Props) {
                     <Image style={styles.rankAvatar} source={{uri: userInfo.avatar}} />
                     <View style={styles.rankNameBox} >
                         <Text style={styles.rankTitle}>{ userInfo.userName }</Text>
-                        <Text>{ state.selfRank[state.type] || '暂无排名' }</Text>
+                        <Text style={{paddingLeft: 5}}>排名 { +state.selfRank[state.type] || '暂无排名' }</Text>
                     </View>
                 </View>
                 <Text style={styles.rankTitle}>{ +userInfo[state.type] || 0 }</Text>

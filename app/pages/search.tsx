@@ -87,7 +87,7 @@ function Search(props) {
     const onFetchCourseList = (offset, value?: string, spec?: boolean) => {
         const queryData = _.cloneDeep(state.queryData);
         queryData.offset = offset;
-        if (value) {
+        if (value !== undefined) {
             dispatch({key: 'courseName', value});
             queryData.courseName = value;
         }
@@ -142,7 +142,6 @@ function Search(props) {
             listData = listData.sort((a, b) => a.money - b.money);
         }
         if (type && type === 2) {
-            console.log('降序')
             listData = listData.sort((a, b) => b.money - a.money);
         }
         if (type === 0) {

@@ -5,8 +5,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row', 
         justifyContent: 'flex-start', 
         zIndex: 100,
-        position: 'relative', 
-        top: 0
+        padding: 5
     },
     searchInput: {
         width: '75%',

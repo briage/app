@@ -6,14 +6,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#fff',
         height: 50,
+        // paddingLeft: 25,
         justifyContent: 'space-around',
+        alignItems: 'center'
     },
     navItem: {
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 5
+        paddingLeft: 15,
+        width: 60,
     }
 })
 

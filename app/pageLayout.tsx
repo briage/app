@@ -8,6 +8,8 @@ import { History } from './components/core/history';
 import { Course } from './pages/course';
 import { RegistorLogin } from './pages/registor-login';
 import _ from 'lodash';
+import { SearchTestPaper } from './pages/searchTestPaper';
+import { Test } from './pages/test';
 
 const { useReducer, useEffect } = React;
 
@@ -62,15 +64,18 @@ function PageLayout(props) {
                     <Route path='/search/:type' exact>
                         <Search />
                     </Route>
-                    <Route path='/test' exact>
-
+                    <Route path='/test/:testpaperId' exact>
+                        <Test userInfo={state.userInfo} />
                     </Route>
                     <Route path='/course/:courseId' exact>
                         <Course goLogin={goLogin} userInfoChange={userInfoChange} userInfo={state.userInfo} />
                     </Route>
+                    <Route path='/search-testpaper' exact>
+                        <SearchTestPaper goLogin={goLogin} userInfo={state.userInfo} />
+                    </Route>
                     <Route path='/'>
                         <View style={{height}}>
-                            <Router goLogin={goLogin} userInfo={state.userInfo} />
+                            <Router goLogin={goLogin} userInfo={state.userInfo} userInfoChange={userInfoChange} />
                             <FooterBar />
                         </View>
                     </Route>

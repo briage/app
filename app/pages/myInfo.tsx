@@ -6,6 +6,8 @@ import { ColCourseItem } from '../components/core/courseItem';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { Rank } from '../components/myInfo/rank';
+import { Setting } from '../components/myInfo/setting';
+import { ErrorBook } from '../components/myInfo/errbook';
 
 export interface UserInfo {
     userId: number,
@@ -27,7 +29,8 @@ export interface UserInfo {
 
 interface Props {
     userInfo: UserInfo,
-    goLogin: (isUpdate?: boolean) => void
+    goLogin: (isUpdate?: boolean) => void,
+    userInfoChange: (value: any) => void
 }
 
 const { useReducer, useEffect } = React;
@@ -37,7 +40,7 @@ function reducer(state, action) {
 }
 
 function MyInfo(props: Props) {
-    const { goLogin, userInfo } = props;
+    const { goLogin, userInfo, userInfoChange } = props;
     const [listData, dispatch] = useReducer(reducer, []);
     const [rankVisible, setrankVisible] = useReducer(reducer, false);
     const [errBookVisible, seterrBookVisible] = useReducer(reducer, false);
@@ -70,6 +73,8 @@ function MyInfo(props: Props) {
     return (
         <ScrollView contentContainerStyle={styles.wrapper}>
             <Rank visible={rankVisible} onClose={() => setrankVisible(false)} userInfo={userInfo} />
+            <Setting visible={settingVisible} onClose={() => setsettingVisible(false)} goLogin={goLogin} userInfo={userInfo} userInfoChange={userInfoChange} />
+            <ErrorBook visible={errBookVisible} onClose={() => seterrBookVisible(false)} userInfo={userInfo} />
             <View style={styles.header}>
                 {
                  userInfo.avatar ? <Image style={styles.avatar} source={{uri: userInfo.avatar}} /> :
@@ -98,7 +103,7 @@ function MyInfo(props: Props) {
                 <View style={styles.navRow} onTouchEnd={() => setrankVisible(true)}>
                     <Text style={styles.title}>排行榜</Text><Icon name='right' size={20} color='#ccc' />
                 </View>
-                <View style={styles.navRow}>
+                <View style={styles.navRow} onTouchEnd={() => seterrBookVisible(true)}>
                     <Text style={styles.title}>错题本</Text><Icon name='right' size={20} color='#ccc' />
                 </View>
             </View>
@@ -106,7 +111,7 @@ function MyInfo(props: Props) {
                 <View style={styles.navRow}>
                     <Text style={styles.title}>意见反馈</Text><Icon name='right' size={20} color='#ccc' />
                 </View>
-                <View style={styles.navRow}>
+                <View style={styles.navRow} onTouchEnd={() => setsettingVisible(true)}>
                     <Text style={styles.title}>设置</Text><Icon name='right' size={20} color='#ccc' />
                 </View>
             </View>

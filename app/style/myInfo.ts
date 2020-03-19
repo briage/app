@@ -96,6 +96,10 @@ const styles = StyleSheet.create({
         borderColor: '#38f',
         margin: 10
     },
+    actionTitle: {
+        backgroundColor: '#38f',
+        color: '#fff'
+    },
     rankTitle: {
         fontSize: 16,
         padding: 5

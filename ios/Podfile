@@ -41,6 +41,7 @@ target 'app' do
 
   pod 'react-native-orientation', :path => '../node_modules/react-native-orientation'
 
+
   target 'appTests' do
     inherit! :search_paths
     # Pods for testing
