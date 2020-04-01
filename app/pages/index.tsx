@@ -28,7 +28,7 @@ function Index(props) {
                     <Text style={styles.tip}>上课总数/节</Text>
                 </View>
                 <View style={styles.dataShowItem}>
-                    <Text>{+userInfo.achievementRate || 0}</Text>
+                    <Text>{+userInfo.achievementRate || 0}%</Text>
                     <Text style={styles.tip}>刷题正确率</Text>
                 </View>
             </View>

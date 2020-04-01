@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { Rank } from '../components/myInfo/rank';
 import { Setting } from '../components/myInfo/setting';
 import { ErrorBook } from '../components/myInfo/errbook';
+import {useHistory} from 'react-router-native';
 
 export interface UserInfo {
     userId: number,
@@ -45,6 +46,7 @@ function MyInfo(props: Props) {
     const [rankVisible, setrankVisible] = useReducer(reducer, false);
     const [errBookVisible, seterrBookVisible] = useReducer(reducer, false);
     const [settingVisible, setsettingVisible] = useReducer(reducer, false);
+    const history = useHistory()
     const handleLogin = () => {
         if (userInfo.userId) {
             goLogin(true)
@@ -89,8 +91,8 @@ function MyInfo(props: Props) {
                     horizontal
                     initialNumToRender={3}
                     renderItem = {({item}) => (
-                        <View style={{margin: 5, width: 150, height: 120}}>
-                            <ColCourseItem uri={item.image_src} link={`/course/${item.courseId}`} title={item.courseName} />
+                        <View style={{margin: 5, width: 150, height: 140, overflow: 'hidden'}}>
+                            <ColCourseItem uri={item.image_src} link={`/course/${item.courseId}`} title={item.courseName} width={150} />
                         </View>
                     )}
                     ListEmptyComponent={<Text>{userInfo.userId ? '您还未浏览任何课程' : '登录后才享受记录哦'}</Text>}
@@ -108,7 +110,7 @@ function MyInfo(props: Props) {
                 </View>
             </View>
             <View style={styles.navWrapper}>
-                <View style={styles.navRow}>
+                <View style={styles.navRow} onTouchEnd={() => history.push('/newpage')}>
                     <Text style={styles.title}>意见反馈</Text><Icon name='right' size={20} color='#ccc' />
                 </View>
                 <View style={styles.navRow} onTouchEnd={() => setsettingVisible(true)}>

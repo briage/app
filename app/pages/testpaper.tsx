@@ -7,6 +7,8 @@ import { request } from '../util';
 import { useHistory } from 'react-router-native';
 import { diffculty, testType, testNumName } from '../config/meta';
 import { TestPaperList } from '../components/core/testPaperList';
+import { ErrorBook } from '../components/myInfo/errbook';
+import { Button } from 'beeshell';
 
 const { useReducer, useEffect } = React;
 
@@ -21,19 +23,24 @@ function reducer(state, action) {
 
 function TestPaper(props) {
     const [state, dispatch] = useReducer(reducer, {
-        hotList: []
+        hotList: [],
     })
+    const [errorBookVisible, setErrorBookVisible] = useReducer(reducer, false);
     const history = useHistory();
     const { userInfo, goLogin } = props;
     useEffect(() => {
-        onFetchTestPaper()
+        onFetchTestPaper(0)
     }, [])
 
-    const onFetchTestPaper = () => {
+    const onFetchTestPaper = (offset) => {
         request('/test-paper/queryTestPaper', {hot: true, offset: 0, diffculty: userInfo.level || 0, selfset: userInfo.selfset})
             .then (res => {
                 if (res && res.success) {
-                    dispatch({hotList: res.data});
+                    dispatch(
+                        {
+                            hotList: res.data
+                        }
+                    );
                 }
             })
     }
@@ -52,9 +59,24 @@ function TestPaper(props) {
                 }
             })
     }
+    const levelTest = () => {
+        request('/test-paper/queryTestPaper', {
+            isTest: 1,
+            selfset: userInfo.selfset
+        })
+        .then(res => {
+            if (res.success) {
+                let testpaper, testpaperId;
+                const length = res.data.length;
+                testpaper = res.data[Math.floor(Math.random() * length)];
+                testpaperId = testpaper.testpaperId;
+                history.push(`/test/${testpaperId}`)
+            }
+        })
+    }
     return (
         <ScrollView>
-            {/* <Modal></Modal> */}
+            <ErrorBook visible={errorBookVisible} userInfo={userInfo} onClose={() => setErrorBookVisible(false)} />
             <View style={styles.headerWrapper}>
                 <Text style={styles.headerTitle}>训练营</Text>
             </View>
@@ -64,35 +86,40 @@ function TestPaper(props) {
                     <Text style={styles.btnText}>套题</Text>
                 </View>
                 <View onTouchEnd={ItemTest.bind(this, 3)} style={styles.btnItem}>
-                    <Icon name='headphones' color='purple' size={40} />
+                    <Icon name='headphones' color='#38f' size={40} />
                     <Text style={styles.btnText}>听力</Text>
                 </View>
                 <View onTouchEnd={ItemTest.bind(this, 2)} style={styles.btnItem}>
-                    <Icon name='pencil-square' color='yellow' size={40} />
+                    <Icon name='pencil-square' color='#38f' size={40} />
                     <Text style={styles.btnText}>作文</Text>                    
                 </View>
                 <View onTouchEnd={ItemTest.bind(this, 0)} style={styles.btnItem}>
-                    <Icon name='check-circle-o' color='skyblue' size={40} />
+                    <Icon name='check-circle-o' color='#38f' size={40} />
                     <Text style={styles.btnText}>单选</Text>
                 </View>
                 <View onTouchEnd={ItemTest.bind(this, 1)} style={styles.btnItem}>
-                    <Icon name='check-square' color='yellowgreen' size={40} />
+                    <Icon name='check-square' color='#38f' size={40} />
                     <Text style={styles.btnText}>多选</Text>
                 </View>
-                <View style={styles.btnItem}>
-                    <Icon name='times-circle' color='red' size={40} />
+                <View onTouchEnd={() => setErrorBookVisible(true)} style={styles.btnItem}>
+                    <Icon name='times-circle' color='#38f' size={40} />
                     <Text style={styles.btnText}>错题</Text>
                 </View>
+                <View onTouchEnd={levelTest} style={styles.btnItem}>
+                    <Icon name='tumblr-square' color='#38f' size={40} />
+                    <Text style={styles.btnText}>测评</Text>
+                </View>
             </View>
-            <Text style={styles.subTitle}>热门推荐</Text>
-            {
-                
-                <FlatList
-                    style={styles.flatList}
-                    data={state.hotList}
-                    renderItem={({item, index}) => <TestPaperList userInfo={userInfo} goLogin={goLogin} key={`test-paper${index}`} testPaperInfo={item} />}
-                />
-            }
+            <View style={styles.listWrapper}>
+                <Text style={styles.subTitle}>热门推荐</Text>
+                {
+                    <FlatList
+                        style={styles.flatList}
+                        data={state.hotList}
+                        renderItem={({item, index}) => <TestPaperList userInfo={userInfo} goLogin={goLogin} key={`test-paper${index}`} testPaperInfo={item} />}
+                    />
+                }
+            </View>
         </ScrollView>
     )
 }

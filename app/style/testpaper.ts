@@ -12,12 +12,9 @@ const styles = StyleSheet.create({
     },
     btnWrapper: {
         marginTop: 5,
-        padding: 20,
-        paddingBottom: 0,
-        paddingLeft: 40,
-        paddingRight: 10,
+        paddingLeft: 30,
+        paddingTop: 10,
         flexDirection: 'row',
-        justifyContent: 'space-around',
         alignItems: 'center',
         flexWrap: 'wrap',
         backgroundColor: '#fff'
@@ -30,15 +27,20 @@ const styles = StyleSheet.create({
         fontSize: 15,
         padding: 4
     },
+    listWrapper: {
+        padding: 5,
+        marginTop: 5,
+        backgroundColor:'#fff'
+    },
     subTitle: {
         fontSize: 18,
-        backgroundColor: '#fff',
-        marginTop: 5,
-        padding: 10
+        padding: 10,
+        borderBottomColor: '#eee',
+        borderBottomWidth: 1,
+        borderStyle: 'solid',
     },
     flatList: {
-        padding: 10,
-        backgroundColor: '#fff'
+        padding: 5,
     }
 })
 export { styles };

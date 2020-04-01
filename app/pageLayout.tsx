@@ -10,6 +10,7 @@ import { RegistorLogin } from './pages/registor-login';
 import _ from 'lodash';
 import { SearchTestPaper } from './pages/searchTestPaper';
 import { Test } from './pages/test';
+import { NewPage } from './pages/webview';
 
 const { useReducer, useEffect } = React;
 
@@ -50,10 +51,9 @@ function PageLayout(props) {
     const userInfoChange = async (value) => {
         await AsyncStorage.setItem('userInfo', JSON.stringify(value))
         await dispatch({key: 'userInfo', value});
-        
     }
     return (
-        <ScrollView>
+        <View>
             <NativeRouter>
                 <StatusBar backgroundColor='#fff' barStyle='dark-content' ></StatusBar>
                 <RegistorLogin goLogin={goLogin} userInfo={state.userInfo} onClose={onClose} userInfoChange={userInfoChange} isUpdate={state.isUpdate} visible={state.visible} />
@@ -65,13 +65,16 @@ function PageLayout(props) {
                         <Search />
                     </Route>
                     <Route path='/test/:testpaperId' exact>
-                        <Test userInfo={state.userInfo} />
+                        <Test userInfo={state.userInfo} userInfoChange={userInfoChange} />
                     </Route>
                     <Route path='/course/:courseId' exact>
                         <Course goLogin={goLogin} userInfoChange={userInfoChange} userInfo={state.userInfo} />
                     </Route>
                     <Route path='/search-testpaper' exact>
                         <SearchTestPaper goLogin={goLogin} userInfo={state.userInfo} />
+                    </Route>
+                    <Route path='/newpage'>
+                        <NewPage />
                     </Route>
                     <Route path='/'>
                         <View style={{height}}>
@@ -81,7 +84,7 @@ function PageLayout(props) {
                     </Route>
                 </Switch>
             </NativeRouter>
-        </ScrollView>
+        </View>
     )
 }
 

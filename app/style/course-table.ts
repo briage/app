@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     
     },
     flatList: {
-        padding: 10,
         backgroundColor: '#fff',
     },
     tipWrapper: {

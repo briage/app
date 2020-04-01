@@ -1,12 +1,5 @@
 import { StyleSheet } from "react-native";
 
-const colorArr = [
-    '#FFC0CB',
-    '#FFDEAD',
-    '#FF1493',
-    '#FF3030'
-]
-
 const styles = StyleSheet.create({
     labelsWrapper: {
         flexDirection: 'row',
@@ -27,7 +20,7 @@ const styles = StyleSheet.create({
         paddingRight: 10,
     },
     label: {
-        color: colorArr[Math.floor(Math.random()*4)]
+        color: '#aaa'
     }
 })
 

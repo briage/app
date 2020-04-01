@@ -23,7 +23,7 @@ function Course(props) {
     const { userInfo, goLogin, userInfoChange } = props;
     const { courseId } = useParams();
     const history = useHistory();
-    const {width, height} = Dimensions.get('screen');
+    const {width, height} = Dimensions.get('window');
     const [state, dispatch] = useReducer(reducer, {
         loading: true,
         courseInfo: {},
@@ -146,7 +146,7 @@ function Course(props) {
         }
     }
     return(
-        <ScrollView contentContainerStyle={{width: '100%', height: '100%'}}>
+        <ScrollView>
             <StatusBar hidden={state.fullscreen} />
             <Text style={styles.subCourseTitle}>{`${state.currentSubCourseInfo.index || ''} ${state.currentSubCourseInfo.subcourseName || ''}`}</Text>
             {
@@ -173,7 +173,7 @@ function Course(props) {
             <View>
                 {
                     !state.isList ?
-                    <ScrollView contentContainerStyle={styles.detailWrapper}>
+                    <View style={{...styles.detailWrapper, height: height - 300}}>
                         <ScrollView>
                             <Text style={styles.courseTitle} > {state.courseInfo.courseName} </Text>
                             <View style={{...styles.navBarWrapper, ...styles.bottonBorder}}>
@@ -200,15 +200,15 @@ function Course(props) {
                                 {state.courseInfo.introduceInfo}
                             </Text>
                         </ScrollView>
-                        <View style={{zIndex: 100}}>
+                        <View style={{zIndex: 1000, position: 'relative', bottom: 0}}>
                             {
                                 userInfo && userInfo.courseIds && userInfo.courseIds.indexOf(`${courseId}`) !== -1 ? 
-                                <Button disabled type='info'>已报名</Button>
+                                <Button style={styles.joinBtn} disabled type='info'>已报名</Button>
                                 :
-                                <Button onPress={joinCourse} type='info' >报名课程</Button>
+                                <Button style={styles.joinBtn} onPress={joinCourse} type='info' >报名课程</Button>
                             }
                         </View>
-                    </ScrollView>
+                    </View>
                     :
                     <FlatList 
                         data={state.subCourseInfoList}

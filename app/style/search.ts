@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         backgroundColor: '#fff',
         height: 50,
+        justifyContent: 'space-around'
     },
     rankButton: {
         margin: 0,
@@ -60,6 +61,11 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         justifyContent: 'center',
         margin: 10
+    },
+    moreText: {
+        textAlign: 'center',
+        padding: 5,
+        backgroundColor: '#fff'
     }
 })
 

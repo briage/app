@@ -2,19 +2,20 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     row: {
-        borderBottomColor: '#ccc',
+        borderBottomColor: '#eee',
         borderBottomWidth: 1,
         borderStyle: 'solid',
         padding: 10,
-        width: '100%'
+        width: '100%',
+        backgroundColor: '#fff'
     },
     title: {
         fontSize: 18,
         height: 40,
-        color: '#38f'
     },
     tip: {
-        fontSize: 14
+        fontSize: 14,
+        color: '#aaa'
     },
     star: {
         fontSize: 16,

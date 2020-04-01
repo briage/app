@@ -26,7 +26,10 @@ function TestPaperList(props: Props) {
     return (
         <View onTouchEnd={handleTouch} key={`testpaper${testPaperInfo.testpaperId}`} style={styles.row}>
             <Text style={styles.title}> {testPaperInfo.testpaperName} </Text>
-            <Text style={styles.tip}> 使用人数 {testPaperInfo.usedCount} </Text>
+            <View style={styles.diffcultyRow}>
+                <Text style={styles.tip}>使用次数 </Text>
+                <Text style={{color: 'skyblue'}}> {testPaperInfo.usedCount} </Text>
+            </View>
             <View style={styles.diffcultyRow}>
                 <Text style={styles.tip}>难度</Text>
                 <Text style={styles.star}> {diffculty[testPaperInfo.diffculty]} </Text>

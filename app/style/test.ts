@@ -9,18 +9,21 @@ const styles = StyleSheet.create({
     },
     headerTitle: {
         fontSize: 20,
-        width: '70%'
+        width: '60%',
+        overflow: 'hidden'
     },
     titleWrapper: {
         padding: 10,
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        minHeight: 490
     },
     title: {
-        fontSize: 18,
+        fontSize: 17,
     },
     option: {
-        fontSize: 16,
+        fontSize: 17,
         padding: 5,
+        color: 'skyblue'
     },
     answerArea: {
         zIndex: 1000,
@@ -38,7 +41,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        height: 140
+        height: 100
     },
     listenWrapper: {
         height: 80,
@@ -49,6 +52,11 @@ const styles = StyleSheet.create({
     submitBtn: {
         color: '#38f',
         fontSize: 18
+    },
+    modalSubmitBtn: {
+        position: 'absolute',
+        bottom: 10,
+        width: '100%'
     }
 })
 

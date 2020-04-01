@@ -17,8 +17,7 @@ interface State {
         testpaperName: string,
         offset: number,
         labels: {},
-        diffculty: number,
-        selfset: {[key: string]: true}
+        diffculty: number
     }
     total: number,
     scrollY?: any,
@@ -48,8 +47,7 @@ function SearchTestPaper(props) {
             testpaperName: '',
             offset: 0,
             labels: {},
-            diffculty: 0,
-            selfset: userInfo.selfset || {}
+            diffculty: 0
         },
         total: 0,
         rank: 0,
@@ -104,6 +102,11 @@ function SearchTestPaper(props) {
         }
         dispatch({key: 'listData', value: listData});
     }
+    const more = () => {
+        const newState = _.cloneDeep(state);
+        const offset = newState.queryData.offset + 1;
+        onFetchTestPaperList(offset);
+    }
     return (
         <ScrollView>
             <View style={styles.searchBar}>
@@ -123,12 +126,12 @@ function SearchTestPaper(props) {
                     <Icon name='down' color={state.rank === 2 ? color : '#000'} />
                     <Text style={{...styles.rankText, color: state.rank === 2 ? color : '#000'}} >按难度降序</Text>
                 </View>
-                <View style={styles.rankButton} onTouchEnd={() => dispatch({key: 'visible', value: true})}><Icon name='plus' /><Text style={styles.rankText} >筛选</Text></View>
             </View>
             <FlatList
                 data={state.listData}
                 renderItem={({item, index}) => <TestPaperList userInfo={userInfo} goLogin={goLogin} key={`search-testpaper${index}`} testPaperInfo={item} />}
             />
+             { state.listData.length < state.total ? <Button type='text' onPress={more} >查看更多</Button> : <Text style={styles.moreText} >没有更多数据</Text>}
         </ScrollView>
     )
 }

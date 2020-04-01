@@ -56,7 +56,7 @@ function Search(props) {
         originData: []
     }
     const color = '#38f';
-
+    const {height} = Dimensions.get('window');
     const { type } = useParams();
     const history = useHistory();
     const [state, dispatch] = useReducer(reducer, initalState);
@@ -150,11 +150,10 @@ function Search(props) {
         dispatch({key: 'listData', value: listData});
     }
     return (
-        <ScrollView keyboardDismissMode='on-drag' >
-            <View style={{width: 200}}>
+        <View style={{height}}>
             <Modal
                 visible={state.visible}
-                onRequestClose={() => {}}
+                onRequestClose={() => dispatch({key: 'visible', value: false})}
                 animationType='slide'
             >
                 <View style={styles.detailWrapper}>
@@ -176,8 +175,6 @@ function Search(props) {
                     </View>
                 </View>
             </Modal>
-            </View>
-            
             <View style={styles.searchBar}>
                 <Input style={styles.searchInput} value={state.courseName} onChange={onFetchCourseList.bind(this, 0)} placeholder='课题名称' />
                 <Button onPress={history.goBack} type='text' style={styles.cancleButton} >取消</Button>
@@ -198,7 +195,7 @@ function Search(props) {
                 <View style={styles.rankButton} onTouchEnd={() => dispatch({key: 'visible', value: true})}><Icon name='plus' /><Text style={styles.rankText} >筛选</Text></View>
             </View>
             <LongListComponent { ...longListComponentProps } />
-        </ScrollView>
+        </View>
     )
 }
 

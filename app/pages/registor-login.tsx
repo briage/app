@@ -41,6 +41,10 @@ function RegistorLogin(props: Props) {
     }
     const handleLogin = () => {
         const newState = _.cloneDeep(user);
+        if (!(/^1[3-9]\d{9}$/.test(newState.phone))) {
+            Alert.alert('请输入正确手机号');
+            return;
+        }
         request('/login', newState)
             .then(res => {
                 if (res.success) {
@@ -58,6 +62,8 @@ function RegistorLogin(props: Props) {
                         resData.selfset = selfset;
                     }
                     userInfoChange(resData)
+                } else {
+                    Alert.alert('手机号或密码错误')
                 }
             })
     }

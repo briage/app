@@ -1,10 +1,12 @@
 import * as React from 'react';
 import {View, Text} from 'react-native';
 import { styles } from '../../style/radio';
+import _ from 'lodash';
 
 interface optionsItem {
     label: string,
-    value: string | number
+    value: string | number,
+    result?: boolean
 }
 
 export interface Props {
@@ -21,10 +23,10 @@ function Radio(props: Props) {
                 options.map((item, index) => (
                     <View 
                         key={`label-wrapper${index}`} 
-                        style={{...styles.labelWrapper, ...value === item.value ? styles.actionWrapperColor : {}}}
+                        style={{...styles.labelWrapper, ..._.isBoolean(item.result) ? item.result ? styles.actionWrapperColor : {borderColor: 'red'} : value == item.value ? styles.actionWrapperColor : {}}}
                         onTouchEnd={onChange.bind(this, item.value)}
                     >
-                        <Text key={`label${index}`} style={{...styles.label, ...value === item.value ? styles.actionLabelColor : {}}} > {item.label} </Text>
+                        <Text key={`label${index}`} style={{...styles.label, ..._.isBoolean(item.result) ? item.result ? styles.actionLabelColor : {color: 'red'} : value == item.value ? styles.actionLabelColor : {}}} > {item.label} </Text>
                     </View>
                 ))
             }

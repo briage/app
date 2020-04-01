@@ -15,8 +15,8 @@ const LABELS = [
 ];
 
 const SEX = [
-    { label: '♂', value: 0 },
-    { label: '♀', value: 1 }
+    { label: '男', value: 0 },
+    { label: '女', value: 1 }
 ];
 
 const WEEK = [

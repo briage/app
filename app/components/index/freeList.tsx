@@ -44,6 +44,8 @@ function FreeList(props) {
                         usedNum={item.studentIds ? item.studentIds.split(/;|；/).length : 0} 
                         title={item.courseName}
                         link={`/course/${item.courseId}`}
+                        width={180}
+                        padding={5}
                     />)
                 }
             </ScrollView>

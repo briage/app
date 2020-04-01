@@ -2,27 +2,29 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     longListWrapper: {
-        margin: 10 
+        padding: 10,
+        minHeight: 500,
+        backgroundColor: '#fff'
     },
     itemWrapper: {
         display: 'flex',
         flexDirection: 'row',
         margin: 5,
-        marginBottom: 10
+        marginBottom: 10,
     },
     imgWrapper: {
         height: 70,
-        width: '35%',
+        width: '40%',
         borderRadius: 3,
         marginRight: 10
     },
     contentWrapper: {
-        height:70,
-        width: '65%'
+        height: 70,
+        width: '58%'
     },
     title: {
         fontSize: 16,
-        height: 40
+        height: 45
     },
     money: {
         color: '#f40',
@@ -34,8 +36,13 @@ const styles = StyleSheet.create({
     },
     colImgWrapper: {
         width: '100%',
-        height: 90,
+        height: 100,
         borderRadius: 5
+    },
+    moneyRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     }
 });
 

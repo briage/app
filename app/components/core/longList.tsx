@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ScrollView, View, Image, Text, RefreshControl } from 'react-native';
 import { Button } from 'beeshell';
-import { Link } from 'react-router-native';
+import { useHistory } from 'react-router-native';
 import { styles } from '../../style/longList';
 import _ from 'lodash';
 
@@ -13,22 +13,25 @@ interface Props {
     renderItem?: ({item, index}) => React.ReactElement,
     nameKey: string,
     onItemClick?: (uri) => void,
-    ref?: (c) => void
+    ref?: (c) => void,
+    usedNum?: number
 }
 
 const { useState } = React;
 
 function LongListComponent(props: Props) {
     const isCourse = !props.onItemClick;
-    const linkProps = {
-        to: '',
-        onTouchEnd: props.onItemClick
-    };
+    const history = useHistory();
     const [refreshing, setRefreshing] = useState(false);
     const renderItem = (item, index) => {
+        const linkProps = {
+            to: '',
+            onTouchEnd: props.onItemClick
+        };
         if (isCourse) {
             linkProps.to = `/course/${item.courseId}`;
             delete linkProps.onTouchEnd;
+            console.log(linkProps.to)
         } else {
             linkProps.onTouchEnd = () => {
                 props.onItemClick(item.video_src);
@@ -36,21 +39,20 @@ function LongListComponent(props: Props) {
             delete linkProps.to;
         }
         return (
-            <Link key={'course' + index} { ...linkProps } >
-                <View style={styles.itemWrapper}>
-                    {
-                        isCourse && <Image style={styles.imgWrapper} source={{uri: item.image_src && item.image_src}} />
-                    }
-                    <View style={styles.contentWrapper}>
-                        <View>
-                            <Text style={styles.title}>{item[props.nameKey]}</Text>
-                        </View>
-                        <View>
-                            <Text style={styles.money}>{!_.isNaN(+item.money) ? +item.money !== 0 ? `￥${item.money}` : '免费' : ''}</Text>
-                        </View>
+            <View style={styles.itemWrapper} onTouchEnd={isCourse ? () => history.push(linkProps.to) : linkProps.onTouchEnd}>
+                {
+                    isCourse && <Image style={styles.imgWrapper} source={{uri: item.image_src && item.image_src}} />
+                }
+                <View style={styles.contentWrapper}>
+                    <View>
+                        <Text style={styles.title}>{item[props.nameKey]}</Text>
+                    </View>
+                    <View style={styles.moneyRow}>
+                        <Text style={styles.money}>{!_.isNaN(+item.money) ? +item.money !== 0 ? `￥${item.money}` : '免费' : ''}</Text>
+                        <Text style={styles.smallFont}>{(item.studentIds && item.studentIds.split(/;|；/).length) || 0}人最近报名</Text>
                     </View>
                 </View>
-            </Link>
+            </View>
         )
     }
     return (
