@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Modal, View, Text } from 'react-native';
+import { Modal, View, Text, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { styles } from  '../../style/myInfo';
 import { request } from '../../util';
@@ -13,7 +13,7 @@ function reducer(state, action) {
 }
 
 function ErrorBook(props) {
-    const { userInfo, visible, onClose } = props;
+    const { userInfo, visible, onClose, goLogin } = props;
     const [state, dispatch] = useReducer(reducer, {
         listenNum: 0,
         onlyChoiceNum: 0,
@@ -21,7 +21,13 @@ function ErrorBook(props) {
     });
     const history = useHistory();
     const onFetchErrorBook = () => {
-        request('/error-book/queryErrorBookInfo', {errorTestBookId: userInfo.errorTestId})
+        if (!userInfo.userId) {
+            Alert.alert('温馨提示', '需要登录后才可以享受该功能哦', [
+                { text: '去登录', onPress: () => goLogin(false) },
+                { text: '再看看', style:'cancel' }
+            ])
+        } else {
+            request('/error-book/queryErrorBookInfo', {errorTestBookId: userInfo.errorTestId})
             .then(res => {
                 if (res && res.success) {
                     dispatch({
@@ -31,6 +37,7 @@ function ErrorBook(props) {
                     });
                 }
             })
+        }
     }
     return (
         <Modal
@@ -39,7 +46,7 @@ function ErrorBook(props) {
             animationType='slide'
             onShow={onFetchErrorBook}
         >
-            <View style={styles.header}>
+            <View style={{...styles.header, justifyContent: 'flex-start'}}>
                 <Icon onPress={onClose} name='left' size={25} color='#aaa' />
                 <Text style={{...styles.modalHeaderTitle, paddingLeft: 110}}>错题本</Text>
             </View>

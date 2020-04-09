@@ -2,13 +2,10 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     headerWrapper: {
-        height: 80,
+        height: 60,
         justifyContent: 'center',
         flexDirection: 'row',
         alignItems: 'center',
-        borderBottomColor: '#ccc',
-        borderBottomWidth: 1,
-        borderStyle: 'solid',
         backgroundColor: '#fff',
         zIndex: 1000
     },

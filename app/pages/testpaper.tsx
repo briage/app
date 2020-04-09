@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ScrollView, View, Text, Modal, FlatList } from 'react-native';
+import { ScrollView, View, Text, Modal, FlatList, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { styles } from '../style/testpaper';
 import _ from 'lodash';
@@ -38,45 +38,59 @@ function TestPaper(props) {
                 if (res && res.success) {
                     dispatch(
                         {
-                            hotList: res.data
+                            hotList: res.data.slice(0, 10)
                         }
                     );
                 }
             })
     }
     const ItemTest = (type) => {
-        const queryData = {
-            selfset: userInfo.selfset,
-            diffculty: userInfo.level || 0,
-            testpaperName: `${testType[type]}专项练习`,
-            [testNumName[type]]: 1,
-            type: 1
+        if (!userInfo.userId) {
+            Alert.alert('温馨提示', '需要登录后才可以享受该功能哦', [
+                { text: '去登录', onPress: () => goLogin(false) },
+                { text: '再看看', style:'cancel' }
+            ])
+        } else {
+            const queryData = {
+                selfset: userInfo.selfset,
+                diffculty: userInfo.level || 0,
+                testpaperName: `${testType[type]}专项练习`,
+                [testNumName[type]]: 1,
+                type: 1
+            }
+            request('/test-paper/createTestPaper', queryData)
+                .then(res => {
+                    if (res.success) {
+                        history.push(`/test/${res.data.insertId}`)
+                    }
+                })
         }
-        request('/test-paper/createTestPaper', queryData)
-            .then(res => {
-                if (res.success) {
-                    history.push(`/test/${res.data.insertId}`)
-                }
-            })
     }
     const levelTest = () => {
-        request('/test-paper/queryTestPaper', {
-            isTest: 1,
-            selfset: userInfo.selfset
-        })
-        .then(res => {
-            if (res.success) {
-                let testpaper, testpaperId;
-                const length = res.data.length;
-                testpaper = res.data[Math.floor(Math.random() * length)];
-                testpaperId = testpaper.testpaperId;
-                history.push(`/test/${testpaperId}`)
-            }
-        })
+        if (!userInfo.userId) {
+            Alert.alert('温馨提示', '需要登录后才可以享受该功能哦', [
+                { text: '去登录', onPress: () => goLogin(false) },
+                { text: '再看看', style:'cancel' }
+            ])
+        } else {
+            request('/test-paper/queryTestPaper', {
+                isTest: 1,
+                selfset: userInfo.selfset
+            })
+            .then(res => {
+                if (res.success) {
+                    let testpaper, testpaperId;
+                    const length = res.data.length;
+                    testpaper = res.data[Math.floor(Math.random() * length)];
+                    testpaperId = testpaper.testpaperId;
+                    history.push(`/test/${testpaperId}`)
+                }
+            })
+        }
     }
     return (
         <ScrollView>
-            <ErrorBook visible={errorBookVisible} userInfo={userInfo} onClose={() => setErrorBookVisible(false)} />
+            <ErrorBook visible={errorBookVisible} userInfo={userInfo} goLogin={goLogin} onClose={() => setErrorBookVisible(false)} />
             <View style={styles.headerWrapper}>
                 <Text style={styles.headerTitle}>训练营</Text>
             </View>

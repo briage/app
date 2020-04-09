@@ -126,10 +126,8 @@ function Test(props) {
         if (testpaperId.includes('errorTestBookId')) {
             let queryData = [];
             testpaperId.split('&&').forEach((item, index) => queryData[index] = item.split('=')[1]);
-            console.log(queryData)
             return request('/error-book/queryErrorBookInfo', {errorTestBookId: +queryData[0]})
                 .then(res => {
-                    console.log(res.data)
                     if (res.success) {
                         switch (+queryData[1]) {
                             case 1:
@@ -268,7 +266,6 @@ function Test(props) {
         const resData = userInfoRes.data;
             if (_.isString(resData.selfset)) {
                 const selfset = {};
-                console.log(resData.selfset)
                 resData.selfset.split(/;|；/).forEach(item => {
                     if (!_.isNumber(+item) && item !== '') {
                         selfset[item] = true;

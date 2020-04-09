@@ -37,7 +37,6 @@ function RegistorLogin(props: Props) {
     const [user, setUser] = useState(userInfo);
     const handleShow = () => {
         setUser(userInfo);
-        console.log(userInfo)
     }
     const handleLogin = () => {
         const newState = _.cloneDeep(user);

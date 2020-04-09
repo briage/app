@@ -8,15 +8,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#fff',
-        padding: 10
+        padding: 10,
+        justifyContent: 'space-between',
     },
     headerTitle: {
         fontSize: 25
     },
     avatar: {
-        width: 80,
-        height: 80,
-        borderRadius: 40
+        width: 70,
+        height: 70,
+        borderRadius: 35
     },
     recentListWrapper: {
         backgroundColor: '#fff',
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     },
     navWrapper: {
         marginTop: 10,
-        marginBottom: 10
+        marginBottom: 10,
     },
     navRow: {
         flexDirection: 'row',
@@ -42,9 +43,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+        borderStyle: 'solid',
     },
     modalHeaderTitle: {
-        fontSize: 20
+        fontSize: 20,
+        padding: 10
     },
     footerInfoWrapper: {
         flexDirection: 'row',
@@ -107,6 +112,29 @@ const styles = StyleSheet.create({
     footerNameBar: {
         flexDirection: 'row',
         alignItems: 'center'
+    },
+    borderBottom: {
+        borderBottomColor: '#eee',
+        borderBottomWidth: 1,
+        borderStyle: 'solid'
+    },
+    smallText: {
+        fontSize: 14,
+        color: '#ccc',
+        padding: 5,
+        textAlign: 'center'
+    },
+    vipWrapper: {
+        height: 20,
+        width: 100,
+        borderRadius: 10,
+        backgroundColor: '#000',
+        margin: 5,
+        alignItems: 'center'
+    },
+    vipText: {
+        fontSize: 14,
+        color: 'gold'
     }
 })
 

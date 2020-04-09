@@ -53,7 +53,6 @@ function Upload(props: Props) {
         .then(res => res.json())
         .then(res => {
             if (res.success) {
-                console.log(res.data)
                 props.onSubmit(res.data);
             }
         })

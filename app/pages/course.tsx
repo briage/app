@@ -131,18 +131,25 @@ function Course(props) {
             }
             
         } else {
-            goLogin(false);
+            Alert.alert('温馨提示', '需要登录后才可以报名哦', [
+                { text: '去登录', onPress: () => goLogin(false) },
+                { text: '再看看', style:'cancel' }
+            ])
         }
     }
     const handleListItem = (item) => {
         if (!userInfo.userId) {
-            goLogin(false);
-        }
-        if (userInfo.courseIds && userInfo.courseIds.indexOf(`${courseId}`) === -1) {
-            Alert.alert('请先报名');
-            dispatch({key: 'isList', value: false});
+            Alert.alert('温馨提示', '需要登录后才可以享受该功能哦', [
+                { text: '去登录', onPress: () => goLogin(false) },
+                { text: '再看看', style:'cancel' }
+            ])
         } else {
-            dispatch({key: 'currentSubCourseInfo', value: item})
+            if (userInfo.courseIds.indexOf(`${courseId}`) === -1) {
+                Alert.alert('请先报名');
+                dispatch({key: 'isList', value: false});
+            } else {
+                dispatch({key: 'currentSubCourseInfo', value: item})
+            }
         }
     }
     return(

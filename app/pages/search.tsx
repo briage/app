@@ -137,7 +137,6 @@ function Search(props) {
         let listData: any[] = _.cloneDeep(state.listData);
         let newState = _.cloneDeep(state)
         dispatch({key: 'rank', value: type});
-        console.log(type)
         if (type && type === 1) {
             listData = listData.sort((a, b) => a.money - b.money);
         }

@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     freeListWrapper: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         // padding: 5
     },
     subTitleWrapper: {

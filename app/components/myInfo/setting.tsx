@@ -18,7 +18,7 @@ function Setting(props) {
             onRequestClose={onClose}
             animationType='slide'
         >
-            <View style={styles.header}>
+            <View style={{...styles.header, justifyContent: 'flex-start'}}>
                 <Icon onPress={onClose} name='left' size={25} color='#aaa' />
                 <Text style={{...styles.modalHeaderTitle, paddingLeft: 100}}>基本信息</Text>
             </View>
@@ -41,6 +41,10 @@ function Setting(props) {
             <View style={styles.navRow}>
                 <Text style={styles.title}>水平</Text>
                 <Text style={styles.title}> {diffculty[userInfo.level] || '未评测'} </Text>
+            </View>
+            <View style={styles.navRow}>
+                <Text style={styles.title}>已消费</Text>
+                <Text style={styles.title}> {userInfo.customMoney || 0} </Text>
             </View>
             {
                 userInfo.userId ?

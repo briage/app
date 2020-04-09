@@ -9,6 +9,8 @@ import { Rank } from '../components/myInfo/rank';
 import { Setting } from '../components/myInfo/setting';
 import { ErrorBook } from '../components/myInfo/errbook';
 import {useHistory} from 'react-router-native';
+import { MissionCenter } from '../components/myInfo/missionCenter';
+import { VIP_LEVEL } from '../config/meta';
 
 export interface UserInfo {
     userId: number,
@@ -25,7 +27,8 @@ export interface UserInfo {
     errorTestId: number,
     avatar: string,
     level: number,
-    studyTime: number
+    studyTime: number,
+    customMoney: number
 }
 
 interface Props {
@@ -46,7 +49,9 @@ function MyInfo(props: Props) {
     const [rankVisible, setrankVisible] = useReducer(reducer, false);
     const [errBookVisible, seterrBookVisible] = useReducer(reducer, false);
     const [settingVisible, setsettingVisible] = useReducer(reducer, false);
-    const history = useHistory()
+    const [missionVisible, setmissionVisible] = useReducer(reducer, false);
+    const [vipLevel, setvipLevel] = useReducer(reducer, '倔强青铜 V0');
+    const history = useHistory();
     const handleLogin = () => {
         if (userInfo.userId) {
             goLogin(true)
@@ -56,10 +61,15 @@ function MyInfo(props: Props) {
     }
     useEffect(() => {
         onFetchCourseList();
+        for (let item in VIP_LEVEL) {
+            if (userInfo.customMoney >= VIP_LEVEL[item][0] && userInfo.customMoney <= VIP_LEVEL[item][1]) {
+                setvipLevel(item);
+                break;
+            }
+        }
     }, [])
     const onFetchCourseList = async() => {
         const courseIds = [...new Set(userInfo.recentStudy && userInfo.recentStudy.split(/;|；/))].filter(item => !!item && _.isNumber(+item));
-        console.log(courseIds)
         const queryArr = courseIds.map(item => 
             request('/course/queryCourseList', {courseId: item})
                 .then(res => {
@@ -76,23 +86,33 @@ function MyInfo(props: Props) {
         <ScrollView contentContainerStyle={styles.wrapper}>
             <Rank visible={rankVisible} onClose={() => setrankVisible(false)} userInfo={userInfo} />
             <Setting visible={settingVisible} onClose={() => setsettingVisible(false)} goLogin={goLogin} userInfo={userInfo} userInfoChange={userInfoChange} />
-            <ErrorBook visible={errBookVisible} onClose={() => seterrBookVisible(false)} userInfo={userInfo} />
+            <ErrorBook visible={errBookVisible} onClose={() => seterrBookVisible(false)} userInfo={userInfo} goLogin={goLogin} />
+            <MissionCenter visible={missionVisible} onClose={() => setmissionVisible(false)} userInfo={userInfo} />
             <View style={styles.header}>
-                {
-                 userInfo.avatar ? <Image style={styles.avatar} source={{uri: userInfo.avatar}} /> :
-                <Image style={styles.avatar} source={require('../static/user.jpeg')} />
-                }
-                <Text onPress={handleLogin} style={styles.headerTitle}> {userInfo.userName || '请登录'} </Text>
+                <View style={styles.footerNameBar}>
+                    {
+                        userInfo.avatar ? <Image style={styles.avatar} source={{uri: userInfo.avatar}} /> :
+                        <Image style={styles.avatar} source={require('../static/user.jpeg')} />
+                    }
+                    <View>
+                        <Text onPress={handleLogin} style={styles.headerTitle}> {userInfo.userName || '请登录'} </Text>
+                        <View style={styles.vipWrapper}>
+                            <Text style={styles.vipText}>{vipLevel}</Text>
+                        </View>
+                    </View>
+                    
+                </View>
+                <Icon name='aliwangwang' color='#38f' size={30} onPress={() => setmissionVisible(true)} />
             </View>
             <View style={styles.recentListWrapper}>
-                <Text style={styles.title}>最近看过</Text>
+                <Text style={{...styles.title, paddingBottom: 5}}>最近看过</Text>
                 <FlatList
                     data={listData.slice(0, 10)}
                     horizontal
                     initialNumToRender={3}
                     renderItem = {({item}) => (
-                        <View style={{margin: 5, width: 150, height: 140, overflow: 'hidden'}}>
-                            <ColCourseItem uri={item.image_src} link={`/course/${item.courseId}`} title={item.courseName} width={150} />
+                        <View style={{width: 140, height: 120, overflow: 'hidden'}}>
+                            <ColCourseItem uri={item.image_src} link={`/course/${item.courseId}`} title={item.courseName} width={120} height={70} />
                         </View>
                     )}
                     ListEmptyComponent={<Text>{userInfo.userId ? '您还未浏览任何课程' : '登录后才享受记录哦'}</Text>}

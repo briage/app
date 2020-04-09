@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     },
     titleWrapper: {
         width: '100%',
-        height: 40,
+        height: 50,
         paddingLeft: 90,
     },
     tip: {

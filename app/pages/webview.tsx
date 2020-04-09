@@ -3,7 +3,6 @@ import { WebView } from 'react-native-webview';
 import { ScrollView, Dimensions } from 'react-native';
 
 function NewPage(props) {
-    console.log('webview')
     const {height} = Dimensions.get('window')
     return (
         <ScrollView contentContainerStyle={{height}}>

@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     rankText: {
-        color: '#999',
         fontSize: 15
     },
     detailWrapper: {

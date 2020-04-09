@@ -12,16 +12,15 @@ interface Props {
     usedNum?: number,
     width: number,
     padding?: number
+    height?: number
 }
 
 function ColCourseItem(props: Props) {
-    const { uri, title, money, progress, link, usedNum, width, padding } = props;
+    const { uri, title, money, progress, link, usedNum, width, padding, height } = props;
     const history = useHistory();
     return (
         <View style={{width, padding: padding || 0}} onTouchEnd={() => history.push(link)}>
-            <View style={styles.colImgWrapper}>
-                <Image style={styles.colImgWrapper} source={{uri}} />
-            </View>
+            <Image style={{...styles.colImgWrapper, ...height && {height}}} source={{uri}} />
             <View>
                 <Text style={money !== undefined ? styles.title : styles.smallFont}>{title}</Text>
                 <View style={styles.moneyRow}>

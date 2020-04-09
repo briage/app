@@ -67,7 +67,20 @@ const options = [
     {label: 'L', value: 'L'},
     {label: 'M', value: 'M'},
     {label: 'N', value: 'N'},
+];
 
-]
+const VIP_LEVEL = {
+    '青铜 V0': [0, 0],
+    '白银 V1': [1, 99],
+    '白银 V2': [100, 299],
+    '黄金 V3': [300, 699],
+    '黄金 V4': [700, 1499],
+    '铂金 V5': [1500, 3099],
+    '铂金 V6': [3100, 6299],
+    '永恒钻石 V7': [6300, 12699],
+    '至尊星耀 V8': [12700, 25499],
+    '最强王者 V9': [25500, 51099],
+    '荣耀王者 V10': [51100, Infinity]
+}
 
-export { LABELS, SEX, WEEK, diffculty, testType, testNumName, options };
+export { LABELS, SEX, WEEK, diffculty, testType, testNumName, options, VIP_LEVEL };

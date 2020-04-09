@@ -31,7 +31,6 @@ function LongListComponent(props: Props) {
         if (isCourse) {
             linkProps.to = `/course/${item.courseId}`;
             delete linkProps.onTouchEnd;
-            console.log(linkProps.to)
         } else {
             linkProps.onTouchEnd = () => {
                 props.onItemClick(item.video_src);
