@@ -8,7 +8,6 @@ import { useHistory } from 'react-router-native';
 import { diffculty, testType, testNumName } from '../config/meta';
 import { TestPaperList } from '../components/core/testPaperList';
 import { ErrorBook } from '../components/myInfo/errbook';
-import { Button } from 'beeshell';
 
 const { useReducer, useEffect } = React;
 
@@ -24,6 +23,8 @@ function reducer(state, action) {
 function TestPaper(props) {
     const [state, dispatch] = useReducer(reducer, {
         hotList: [],
+        loading: false,
+        offset: 0
     })
     const [errorBookVisible, setErrorBookVisible] = useReducer(reducer, false);
     const history = useHistory();
@@ -32,17 +33,30 @@ function TestPaper(props) {
         onFetchTestPaper(0)
     }, [])
 
-    const onFetchTestPaper = (offset) => {
-        request('/test-paper/queryTestPaper', {hot: true, offset: 0, diffculty: userInfo.level || 0, selfset: userInfo.selfset})
+    const onFetchTestPaper = (offset = 0) => {
+        dispatch({key: 'loading', value: true})
+        request('/test-paper/queryTestPaper', {hot: true, offset, diffculty: userInfo.level || 0, selfset: userInfo.selfset})
             .then (res => {
                 if (res && res.success) {
+                    let hotList = _.cloneDeep(state.hotList);
+                    if (offset) {
+                        hotList.push(...res.data);
+                    } else {
+                        hotList = res.data;
+                    }
                     dispatch(
                         {
-                            hotList: res.data.slice(0, 10)
+                            hotList,
+                            loading: false,
+                            offset
                         }
                     );
                 }
             })
+    }
+    const more = () => {
+        const newState = _.cloneDeep(state);
+        onFetchTestPaper(newState.offset + 1)
     }
     const ItemTest = (type) => {
         if (!userInfo.userId) {
@@ -96,7 +110,7 @@ function TestPaper(props) {
             </View>
             <View style={styles.btnWrapper}>
                 <View onTouchEnd={() => history.push('/search-testpaper')} style={styles.btnItem}>
-                    <Icon name='book' color='#38f' size={40} />
+                    <Icon name='folder' color='#38f' size={40} />
                     <Text style={styles.btnText}>套题</Text>
                 </View>
                 <View onTouchEnd={ItemTest.bind(this, 3)} style={styles.btnItem}>
@@ -123,6 +137,10 @@ function TestPaper(props) {
                     <Icon name='tumblr-square' color='#38f' size={40} />
                     <Text style={styles.btnText}>测评</Text>
                 </View>
+                <View onTouchEnd={() => history.push('/game')} style={styles.btnItem}>
+                    <Icon name='gamepad' color='#38f' size={40} />
+                    <Text style={styles.btnText}>游戏</Text>
+                </View>
             </View>
             <View style={styles.listWrapper}>
                 <Text style={styles.subTitle}>热门推荐</Text>
@@ -131,6 +149,10 @@ function TestPaper(props) {
                         style={styles.flatList}
                         data={state.hotList}
                         renderItem={({item, index}) => <TestPaperList userInfo={userInfo} goLogin={goLogin} key={`test-paper${index}`} testPaperInfo={item} />}
+                        onEndReachedThreshold={0.3}
+                        onEndReached={more}
+                        onRefresh={() => onFetchTestPaper(0)}
+                        refreshing={state.loading}
                     />
                 }
             </View>

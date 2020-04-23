@@ -16,7 +16,7 @@ function MultifySelect(props: Props) {
                 options.map((item, index) => {
                     return (
                         <View key={'labels' + index} style={value[item] ? {...styles.labelBtn, ...styles.labelBtnActive} : styles.labelBtn} onTouchEnd={onChange.bind(this, item)}>
-                            <Text style={styles.label} key='label'>{item}</Text>
+                            <Text style={{...styles.label, ...value[item] && styles.activeLabel}} key='label'>{item}</Text>
                         </View>
                     )
                 })

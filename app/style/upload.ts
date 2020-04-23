@@ -17,6 +17,21 @@ const styles = StyleSheet.create({
     }, 
     title: {
         fontSize: 16
+    },
+    uploadImageWrapper: {
+        width: 90,
+        height: 90,
+        borderRadius: 8,
+        borderColor: '#ccc',
+        borderStyle: "dashed",
+        borderWidth: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    photo: {
+        width: 90,
+        height: 90,
+        borderRadius: 8
     }
 })
 

@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
     title: {
         height: 40,
         fontSize: 18,
-        padding: 5
+        padding: 5,
+        color: '#38f'
     },
     titleWrapper: {
         width: '100%',
@@ -47,7 +48,17 @@ const styles = StyleSheet.create({
         fontSize: 15,
     },
     loginBtn: {
-        marginTop: 15
+        marginTop: 20,
+        backgroundColor: '#fff',
+        borderWidth: 1,
+        borderColor: '#38f',
+        borderStyle: 'solid',
+        color: '#38f',
+        height: 40,
+        borderRadius: 20,
+        fontSize: 18,
+        padding: 5,
+        textAlign: 'center'
     }
 })
 

@@ -11,6 +11,8 @@ import _ from 'lodash';
 import { SearchTestPaper } from './pages/searchTestPaper';
 import { Test } from './pages/test';
 import { NewPage } from './pages/webview';
+import { Card } from './pages/card';
+import { Game } from './pages/game';
 
 const { useReducer, useEffect } = React;
 
@@ -73,8 +75,14 @@ function PageLayout(props) {
                     <Route path='/search-testpaper' exact>
                         <SearchTestPaper goLogin={goLogin} userInfo={state.userInfo} />
                     </Route>
-                    <Route path='/newpage'>
+                    <Route path='/newpage' exact>
                         <NewPage />
+                    </Route>
+                    <Route path='/card' exact>
+                        <Card goLogin={goLogin} userInfo={state.userInfo} />
+                    </Route>
+                    <Route path='/game' exact>
+                        <Game />
                     </Route>
                     <Route path='/'>
                         <View style={{height}}>

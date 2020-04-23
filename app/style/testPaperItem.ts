@@ -10,11 +10,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     title: {
-        fontSize: 18,
+        fontSize: 14,
         height: 40,
+        fontWeight: 'bold'
     },
     tip: {
-        fontSize: 14,
+        fontSize: 12,
         color: '#aaa'
     },
     star: {

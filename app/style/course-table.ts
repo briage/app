@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
         zIndex: 1000
     },
     headerTitle: {
-        fontSize: 22
+        fontSize: 20
     },
     tableWrapper: {
         margin: 10

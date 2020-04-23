@@ -11,7 +11,9 @@ export interface Props {
     type: 'text' | 'number' | 'email' | 'password',
     maxLength?: number,
     placeholder?: string,
-    autoComplete?: string
+    autoComplete?: string,
+    secureTextEntry?: boolean,
+    textContentType?: any
 }
 
 const { useState } = React;
@@ -25,7 +27,7 @@ function InputForm(props: Props) {
         const newState = _.cloneDeep(state);
         switch(type) {
             case 'number':
-                newState.checked = _.isNumber(+value) && value.length <= maxLength;
+                newState.checked = +value && value.length <= maxLength;
                 value = +value;
                 break;
             case 'email':
@@ -36,8 +38,8 @@ function InputForm(props: Props) {
         onChange(value);
     }
     return (
-        <View key='input-form' style={{...styles.inputWrapper, ...!state.checked && styles.errorBorder}}>
-            <Input {...props} onChange={handleChange} />
+        <View key='input-form' style={styles.inputWrapper}>
+            <TextInput style={{...styles.input, ...!state.checked && styles.errorBorder}} selectionColor='#38f' {...props} onChangeText={handleChange} />
         </View>
     )
 }

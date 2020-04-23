@@ -4,23 +4,26 @@ const styles = StyleSheet.create({
     labelsWrapper: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'center'
+        justifyContent: 'flex-start'
     },
     labelBtnActive: {
         borderColor: '#38f'
     },
     labelBtn: {
-        borderColor: '#ccc',
+        borderColor: '#000',
         borderRadius: 15,
         borderStyle: "solid",
         borderWidth: 1,
-        margin: 5,
+        margin: 3,
         padding: 3,
         paddingLeft: 10,
         paddingRight: 10,
     },
     label: {
-        color: '#aaa'
+        color: '#000'
+    },
+    activeLabel: {
+        color: '#38f'
     }
 })
 

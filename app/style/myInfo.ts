@@ -15,8 +15,8 @@ const styles = StyleSheet.create({
         fontSize: 25
     },
     avatar: {
-        width: 70,
-        height: 70,
+        width: 60,
+        height: 60,
         borderRadius: 35
     },
     recentListWrapper: {
@@ -34,7 +34,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
         padding: 15,
-        marginBottom: 2,
+        marginBottom: 2
+    },
+    modalNavRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        padding: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+        borderStyle: 'solid'
     },
     title: {
         fontSize: 16
@@ -55,12 +65,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: '#ddd',
+        opacity: 0.9,
         height: 70,
         zIndex: 1000,
-        borderTopColor: '#eee',
-        borderTopWidth: 1,
-        borderStyle: 'solid',
         paddingLeft: 10,
         paddingRight: 10,
     },
@@ -87,13 +95,22 @@ const styles = StyleSheet.create({
         margin: 5,
         marginLeft: 10,
         marginRight: 10,
-        backgroundColor: '#Efeeee',
+        backgroundColor: '#fdc6c3',
         borderRadius: 5,
         height: 60
     },
+    rankItemUserWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    rankListWrapper: {
+        backgroundColor: '#caeae5',
+        opacity: 0.9
+    },
     rankNavBar: {
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
         borderRadius: 8,
         borderWidth: 1,
@@ -107,7 +124,8 @@ const styles = StyleSheet.create({
     },
     rankTitle: {
         fontSize: 16,
-        padding: 5
+        padding: 5,
+        color: '#fff'
     },
     footerNameBar: {
         flexDirection: 'row',
@@ -119,10 +137,9 @@ const styles = StyleSheet.create({
         borderStyle: 'solid'
     },
     smallText: {
-        fontSize: 14,
-        color: '#ccc',
+        fontSize: 12,
+        color: '#000',
         padding: 5,
-        textAlign: 'center'
     },
     vipWrapper: {
         height: 20,
@@ -135,6 +152,15 @@ const styles = StyleSheet.create({
     vipText: {
         fontSize: 14,
         color: 'gold'
+    },
+    itemHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    missionMsg: {
+        fontSize: 15,
+        color: '#38e'
     }
 })
 

@@ -73,38 +73,43 @@ function Rank(props: Props) {
             <View style={styles.modalHeaderWrapper}>
                 <Text style={styles.modalHeaderTitle}>排行榜</Text>
             </View>
-            <View style={styles.rankNavBar}>
-                <Text style={{...styles.selectItem, ...state.type === 'praticeNum' && styles.actionTitle}} onPress={() => dispatch({key: 'type', value: 'praticeNum'})}>刷题榜</Text>
-                <Text style={{...styles.selectItem, ...state.type === 'achievementRate' && styles.actionTitle}} onPress={() => dispatch({key: 'type', value: 'achievementRate'})}>学霸榜</Text>
-                <Text style={{...styles.selectItem, ...state.type === 'studyTime' && styles.actionTitle}} onPress={() => dispatch({key: 'type', value: 'studyTime'})}>广学榜</Text>
-            </View>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginLeft: 10, marginRight: 10}}>
-                <Text style={{color: '#ccc'}}>排名</Text>
-                <Text style={{color: '#ccc'}}>{dataType[state.type]}</Text>
-            </View>
-            <FlatList
-                data={state.rankData[state.type]}
-                renderItem={({item, index}) => (
-                    <View style={styles.rankItemWrapper}>
-                        <View style={styles.rankItemWrapper}>
-                            <Text style={styles.rankTitle}>{ index + 1 }</Text>
-                            <Image style={styles.rankAvatar} source={{uri: item.avatar}} />
-                            <Text style={styles.rankTitle}>{ item.userName }</Text>
-                        </View>
-                        <Text style={styles.rankTitle}>{ +item[state.type] || 0 }</Text>
-                    </View>
-                )}
-            />
-            <View style={styles.footerInfoWrapper}>
-                <View style={styles.footerNameBar}>
-                    <Image style={styles.rankAvatar} source={{uri: userInfo.avatar}} />
-                    <View style={styles.rankNameBox} >
-                        <Text style={styles.rankTitle}>{ userInfo.userName }</Text>
-                        <Text style={{paddingLeft: 5}}>排名 { +state.selfRank[state.type] || '暂无排名' }</Text>
-                    </View>
+            <View style={styles.rankListWrapper}>
+                <View style={styles.rankNavBar}>
+                    <Text style={{...styles.selectItem, ...state.type === 'praticeNum' && styles.actionTitle, ...{borderTopLeftRadius: 5, borderBottomLeftRadius: 5}}} onPress={() => dispatch({key: 'type', value: 'praticeNum'})}>刷题榜</Text>
+                    <Text style={{...styles.selectItem, ...state.type === 'achievementRate' && styles.actionTitle}} onPress={() => dispatch({key: 'type', value: 'achievementRate'})}>学霸榜</Text>
+                    <Text style={{...styles.selectItem, ...state.type === 'studyTime' && styles.actionTitle, ...{borderTopRightRadius: 5, borderBottomRightRadius: 5}}} onPress={() => dispatch({key: 'type', value: 'studyTime'})}>广学榜</Text>
                 </View>
-                <Text style={styles.rankTitle}>{ +userInfo[state.type] || 0 }</Text>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginLeft: 10, marginRight: 10}}>
+                    <Text style={{color: '#ccc'}}>排名</Text>
+                    <Text style={{color: '#ccc'}}>{dataType[state.type]}</Text>
+                </View>
+                <FlatList
+                    data={state.rankData[state.type]}
+                    style={{height: 550}}
+                    renderItem={({item, index}) => (
+                        <View style={styles.rankItemWrapper}>
+                            <View style={styles.rankItemUserWrapper}>
+                                <Text style={styles.rankTitle}>{ index + 1 }</Text>
+                                <Image style={styles.rankAvatar} source={{uri: item.avatar}} />
+                                <Text style={styles.rankTitle}>{ item.userName }</Text>
+                            </View>
+                            <Text style={styles.rankTitle}>{ +item[state.type] || 0 }</Text>
+                        </View>
+                    )}
+                />
+                <View style={styles.footerInfoWrapper}>
+                    <View style={styles.footerNameBar}>
+                        <Image style={styles.rankAvatar} source={{uri: userInfo.avatar}} />
+                        <View style={styles.rankNameBox} >
+                            <Text style={{...styles.rankTitle, color: '#000'}}>{ userInfo.userName }</Text>
+                            <Text style={{paddingLeft: 5}}>排名 { +state.selfRank[state.type] || '暂无排名' }</Text>
+                        </View>
+                    </View>
+                    <Text style={{...styles.rankTitle, color: '#000'}}>{ +userInfo[state.type] || 0 }</Text>
+                </View>
             </View>
+            
+            
             
         </Modal>
     )

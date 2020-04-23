@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ScrollView, View, Image, Text, RefreshControl } from 'react-native';
+import { ScrollView, View, Image, Text, RefreshControl, FlatList } from 'react-native';
 import { Button } from 'beeshell';
 import { useHistory } from 'react-router-native';
 import { styles } from '../../style/longList';
@@ -14,16 +14,14 @@ interface Props {
     nameKey: string,
     onItemClick?: (uri) => void,
     ref?: (c) => void,
-    usedNum?: number
+    usedNum?: number,
+    loading: boolean
 }
-
-const { useState } = React;
 
 function LongListComponent(props: Props) {
     const isCourse = !props.onItemClick;
     const history = useHistory();
-    const [refreshing, setRefreshing] = useState(false);
-    const renderItem = (item, index) => {
+    const renderItem = ({item, index}) => {
         const linkProps = {
             to: '',
             onTouchEnd: props.onItemClick
@@ -55,19 +53,15 @@ function LongListComponent(props: Props) {
         )
     }
     return (
-        <ScrollView style={styles.longListWrapper} refreshControl={<RefreshControl
-            enabled
-            colors={['#ccc']}
-            progressViewOffset={50}
-            refreshing={refreshing}
+        <FlatList style={styles.longListWrapper}
+            refreshing={props.loading || false}
             onRefresh={props.onRefresh}
-            />}>
-            {
-                props.data && props.data.map(renderItem)
-            }
-            { props.data && (props.data.length < props.total) ? <Button type='text' onPress={props.onEndReached} >查看更多</Button> : <Text style={{textAlign: 'center'}} >没有更多数据</Text>}
-        </ScrollView>
-    )
+            renderItem={renderItem}
+            data={props.data}
+            onEndReached={props.onEndReached}
+            onEndReachedThreshold={0.3}
+            />
+        )
 }
 
 export { LongListComponent, Props };

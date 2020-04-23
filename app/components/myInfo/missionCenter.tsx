@@ -33,12 +33,15 @@ function MissionCenter(props) {
     }
     const renderItem = ({item, index}) => (
         <View style={styles.borderBottom}>
-            <Text style={styles.smallText}>{item.courseName}</Text>
+            <View style={styles.itemHeader}>
+                <Text style={styles.smallText}>{item.courseName}</Text>
+                <Text style={styles.smallText}>发布人：{item.creatorName}</Text>
+            </View>
+            
             <View style={styles.navRow}>
-                <Text style={styles.title}>{!item.message ? '作业' : item.message}</Text>
+                <Text style={styles.missionMsg}>{!item.message ? '作业' : item.message}</Text>
                 { item.testpaperId && <Icon name='form' color='#38f' size={25} onPress={() => history.push(`/test/${item.testpaperId}`)} /> }
             </View>
-            <Text style={{...styles.smallText, textAlign: 'right'}}>发布人：{item.creatorName}</Text>
         </View>
     )
     return (

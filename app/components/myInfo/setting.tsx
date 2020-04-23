@@ -22,27 +22,27 @@ function Setting(props) {
                 <Icon onPress={onClose} name='left' size={25} color='#aaa' />
                 <Text style={{...styles.modalHeaderTitle, paddingLeft: 100}}>基本信息</Text>
             </View>
-            <View style={styles.navRow}>
+            <View style={styles.modalNavRow}>
                 <Text style={styles.title}>ID</Text>
                 <Text style={styles.title}> {userInfo.userId || ''} </Text>
             </View>
-            <View style={styles.navRow}>
+            <View style={styles.modalNavRow}>
                 <Text style={styles.title}>昵称</Text>
                 <Text style={styles.title}> {userInfo.userName || ''} </Text>
             </View>
-            <View style={styles.navRow}>
+            <View style={styles.modalNavRow}>
                 <Text style={styles.title}>性别</Text>
                 <Text style={styles.title}> {['男', '女'][userInfo.sex] || ''} </Text>
             </View>
-            <View style={styles.navRow}>
+            <View style={styles.modalNavRow}>
                 <Text style={styles.title}>绑定手机</Text>
                 <Text style={styles.title}> {userInfo.phone || ''} </Text>
             </View>
-            <View style={styles.navRow}>
+            <View style={styles.modalNavRow}>
                 <Text style={styles.title}>水平</Text>
                 <Text style={styles.title}> {diffculty[userInfo.level] || '未评测'} </Text>
             </View>
-            <View style={styles.navRow}>
+            <View style={styles.modalNavRow}>
                 <Text style={styles.title}>已消费</Text>
                 <Text style={styles.title}> {userInfo.customMoney || 0} </Text>
             </View>

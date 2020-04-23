@@ -77,7 +77,9 @@ const styles = StyleSheet.create({
         margin: 2,
         padding: 10,
         borderRadius: 2,
-        backgroundColor: '#eee'
+        borderBottomColor: '#eee',
+        borderBottomWidth: 1,
+        borderStyle: 'solid'
     },
     joinBtn: {
         borderRadius: 5

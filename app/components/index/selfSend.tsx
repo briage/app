@@ -30,7 +30,8 @@ function SelfSend(props: Props) {
     const [state, dispatch] = useReducer(reducer, {
         listData: [],
         offset: 0,
-        total: 0
+        total: 0,
+        loading: false
     })
     useEffect(() => {
         onFetchCourseList(0)
@@ -43,8 +44,10 @@ function SelfSend(props: Props) {
         const newState = {
             listData: [],
             offset,
-            total: 0
+            total: 0,
+            loading: true
         };
+        dispatch({key: 'loading', value: true});
         return request('/course/queryCourseList', queryData)
             .then(res => {
                 if (res.success) {
@@ -56,6 +59,7 @@ function SelfSend(props: Props) {
                         newState.listData = res.data;
                     }
                     newState.total = res.total;
+                    newState.loading = false;
                     dispatch(newState);
                 }
                 return res;
@@ -68,8 +72,11 @@ function SelfSend(props: Props) {
         onRefresh: () => onFetchCourseList(0),
         onEndReached: () => {
             const newState = _.cloneDeep(state);
-            onFetchCourseList(newState.offset + 1);
-        }
+            if (state.listData.length < state.total) {
+                onFetchCourseList(newState.offset + 1);
+            }
+        },
+        loading: state.loading
     }
     return (
         <ScrollView contentContainerStyle={{backgroundColor: '#fff', marginTop: 10}}>

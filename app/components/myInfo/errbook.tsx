@@ -50,15 +50,15 @@ function ErrorBook(props) {
                 <Icon onPress={onClose} name='left' size={25} color='#aaa' />
                 <Text style={{...styles.modalHeaderTitle, paddingLeft: 110}}>错题本</Text>
             </View>
-            <View style={styles.navRow} onTouchEnd={() => history.push(`/test/errorTestBookId=${userInfo.errorTestId}&&type=1`)}>
+            <View style={styles.modalNavRow} onTouchEnd={() => history.push(`/test/errorTestBookId=${userInfo.errorTestId}&&type=1`)}>
                 <Text style={styles.title}>单选题</Text>
                 <Text style={styles.title}> {state.onlyChoiceNum} 个 </Text>
             </View>
-            <View style={styles.navRow} onTouchEnd={() => history.push(`/test/errorTestBookId=${userInfo.errorTestId}&&type=2`)}>
+            <View style={styles.modalNavRow} onTouchEnd={() => history.push(`/test/errorTestBookId=${userInfo.errorTestId}&&type=2`)}>
                 <Text style={styles.title}>多选题</Text>
                 <Text style={styles.title}> {state.multifyChoiceNum} 个 </Text>
             </View>
-            <View style={styles.navRow} onTouchEnd={() => history.push(`/test/errorTestBookId=${userInfo.errorTestId}&&type=4`)}>
+            <View style={styles.modalNavRow} onTouchEnd={() => history.push(`/test/errorTestBookId=${userInfo.errorTestId}&&type=4`)}>
                 <Text style={styles.title}>听力题</Text>
                 <Text style={styles.title}> {state.listenNum} 个 </Text>
             </View>

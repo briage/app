@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ScrollView, View, FlatList, Text } from 'react-native';
+import { ScrollView, View, FlatList, Text, Dimensions } from 'react-native';
 import { Input, Button } from 'beeshell';
 import { useHistory } from 'react-router-native';
 import _ from 'lodash';
@@ -23,7 +23,8 @@ interface State {
     scrollY?: any,
     rank: number,
     visible: boolean,
-    originData: any[]
+    originData: any[],
+    loading: boolean
 }
 
 function reducer(state, action) {
@@ -52,13 +53,15 @@ function SearchTestPaper(props) {
         total: 0,
         rank: 0,
         visible: false,
-        originData: []
+        originData: [],
+        loading: false
     }
     useEffect(() => {
         onFetchTestPaperList(0);
     }, [])
     
     const history = useHistory();
+    const { height } = Dimensions.get('window');
     const [state, dispatch] = useReducer(reducer, initalState);
     const onFetchTestPaperList = (offset = 0, testpaperName?: string) => {
         const queryData = _.cloneDeep(state.queryData);
@@ -71,6 +74,7 @@ function SearchTestPaper(props) {
         queryData.offset = offset;
         queryData.selfset = {...queryData.selfset, ...queryData.labels};
         delete queryData.labels;
+        dispatch({key: 'loading', value: true});
         request('/test-paper/queryTestPaper', queryData)
             .then(res => {
                 if (res.success) {
@@ -83,6 +87,7 @@ function SearchTestPaper(props) {
                     }
                     newState.queryData.offset = offset;
                     newState.total = res.total;
+                    newState.loading = false;
                     dispatch(newState);
                 }
             })
@@ -108,7 +113,7 @@ function SearchTestPaper(props) {
         onFetchTestPaperList(offset);
     }
     return (
-        <ScrollView>
+        <View>
             <View style={styles.searchBar}>
                 <Input style={styles.searchInput} onChange={onFetchTestPaperList.bind(this, 0)} value={state.queryData.testpaperName} placeholder='试卷名称' />
                 <Button style={styles.cancleButton} type='text' onPress={history.goBack}>取消</Button>
@@ -130,9 +135,13 @@ function SearchTestPaper(props) {
             <FlatList
                 data={state.listData}
                 renderItem={({item, index}) => <TestPaperList userInfo={userInfo} goLogin={goLogin} key={`search-testpaper${index}`} testPaperInfo={item} />}
+                onEndReachedThreshold={0.5}
+                onEndReached={more}
+                style={{height: height - 100}}
+                onRefresh={() => onFetchTestPaperList(0)}
+                refreshing={state.loading}
             />
-             { state.listData.length < state.total ? <Button type='text' onPress={more} >查看更多</Button> : <Text style={styles.moreText} >没有更多数据</Text>}
-        </ScrollView>
+            </View>
     )
 }
 

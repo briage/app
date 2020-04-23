@@ -40,7 +40,7 @@ function RegistorLogin(props: Props) {
     }
     const handleLogin = () => {
         const newState = _.cloneDeep(user);
-        if (!(/^1[3-9]\d{9}$/.test(newState.phone))) {
+        if (!(/^1[3-9]{1}\d{9}$/g.test(newState.phone))) {
             Alert.alert('请输入正确手机号');
             return;
         }
@@ -131,8 +131,19 @@ function RegistorLogin(props: Props) {
                     </View>,
                     <View key='content' style={styles.contentWrapper}>
                         <Upload onSubmit={handleImagePicker} type='photo' avatar={user.avatar} />
-                        <InputForm type='text' key='userName' value={user.userName} onChange={handleChange.bind(this, 'userName')} placeholder='昵称' />
-                        <Radio key='sex' value={user.sex} onChange={handleChange.bind(this, 'sex')} options={SEX} />
+                        <View style={{...styles.subTitleWrapper, justifyContent: 'flex-start'}}>
+                            <Text style={styles.subTitle}>昵称</Text>
+                            <View style={{flexBasis: '90%'}}>
+                                <InputForm type='text' key='userName' value={user.userName} onChange={handleChange.bind(this, 'userName')} placeholder='昵称' />
+                            </View>
+                            
+                        </View>
+                        
+                        <View style={styles.subTitleWrapper}>
+                            <Text style={styles.subTitle}>性别</Text>
+                            <Radio key='sex' value={user.sex} onChange={handleChange.bind(this, 'sex')} options={SEX} />
+                        </View>
+                        
                         <View style={styles.subTitleWrapper}>
                             <Text style={styles.subTitle}>私人订制</Text><Text style={styles.tip}>有利于精准推送你所需要的课程</Text>
                         </View>
@@ -150,8 +161,8 @@ function RegistorLogin(props: Props) {
                     <View key='content-wrapper' style={styles.contentWrapper}>
                         <Text key='tip' style={styles.tip}>未注册的手机号将自动注册</Text>
                         <InputForm type='text' key='phone' maxLength={11} value={user.phone} onChange={handleChange.bind(this, 'phone')} placeholder='手机号' />
-                        <InputForm type='text' key='password' value={user.password} onChange={handleChange.bind(this, 'password')} placeholder='密码' />
-                        <Button style={styles.loginBtn} onPress={handleLogin} type='info'>登录/注册</Button>
+                        <InputForm type='text' key='password' secureTextEntry={true} value={user.password} onChange={handleChange.bind(this, 'password')} placeholder='密码' />
+                        <Text style={styles.loginBtn} onPress={handleLogin}>登录/注册</Text>
                     </View>
                 ]
             }

@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     },
     btnWrapper: {
         marginTop: 5,
-        paddingLeft: 30,
+        paddingLeft: 40,
         paddingTop: 10,
         flexDirection: 'row',
         alignItems: 'center',
@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
         height: 80
     },
     btnText: {
-        fontSize: 15,
-        padding: 4
+        fontSize: 12,
+        paddingLeft: 6
     },
     listWrapper: {
         padding: 5,
@@ -33,11 +33,12 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff'
     },
     subTitle: {
-        fontSize: 18,
+        fontSize: 16,
         padding: 10,
         borderBottomColor: '#eee',
         borderBottomWidth: 1,
         borderStyle: 'solid',
+        color: '#38f'
     },
     flatList: {
         padding: 5,

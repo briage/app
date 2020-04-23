@@ -83,4 +83,25 @@ const VIP_LEVEL = {
     '荣耀王者 V10': [51100, Infinity]
 }
 
-export { LABELS, SEX, WEEK, diffculty, testType, testNumName, options, VIP_LEVEL };
+const word = [
+    { word: 'word', mean: '单词' },
+    { word: 'wear', mean: '穿着；衣物' },
+    { word: 'able', mean: '能够的；有能力的；有才干的；干练的' },
+    { word: 'live', mean: '居住；生存；活着' },
+    { word: 'study', mean: '学习' },
+    { word: 'april', mean: '四月' },
+    { word: 'basket', mean: '篮；一篮；（篮球运动的）篮；投篮得分' },
+    { word: 'config', mean: '配置' },
+    { word: 'page', mean: '页；页面' },
+    { word: 'boundary', mean: '分界线；范围；（球场）边线' },
+    { word: 'card', mean: '卡片' },
+    { word: 'game', mean: '游戏' },
+    { word: 'search', mean: '查询；搜索' },
+    { word: 'cafe', mean: '咖啡' },
+    { word: 'style', mean: '方式' },
+    { word: 'chart', mean: '图表；航海图；排行榜' },
+    { word: 'play', mean: '播放；玩' },
+    { word: 'cloud', mean: '云；云状物；一团；阴影' },
+]
+
+export { LABELS, SEX, WEEK, diffculty, testType, testNumName, options, VIP_LEVEL, word };

@@ -1,16 +1,18 @@
 import * as React from 'react';
-import {View, Text, Image, ScrollView, FlatList} from 'react-native';
+import {View, Text, Image, ScrollView, FlatList, Alert} from 'react-native';
 import { styles } from '../style/myInfo';
 import { request } from '../util';
 import { ColCourseItem } from '../components/core/courseItem';
 import _ from 'lodash';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import AntIcon from 'react-native-vector-icons/AntDesign'
 import { Rank } from '../components/myInfo/rank';
 import { Setting } from '../components/myInfo/setting';
 import { ErrorBook } from '../components/myInfo/errbook';
 import {useHistory} from 'react-router-native';
 import { MissionCenter } from '../components/myInfo/missionCenter';
 import { VIP_LEVEL } from '../config/meta';
+import { PubCard } from '../components/card/pubCard';
 
 export interface UserInfo {
     userId: number,
@@ -50,6 +52,7 @@ function MyInfo(props: Props) {
     const [errBookVisible, seterrBookVisible] = useReducer(reducer, false);
     const [settingVisible, setsettingVisible] = useReducer(reducer, false);
     const [missionVisible, setmissionVisible] = useReducer(reducer, false);
+    const [cardVisible, setCardVisible] = useReducer(reducer, false);
     const [vipLevel, setvipLevel] = useReducer(reducer, '倔强青铜 V0');
     const history = useHistory();
     const handleLogin = () => {
@@ -82,12 +85,23 @@ function MyInfo(props: Props) {
         const RealCourseList = courseList.filter(item => !!item);
         dispatch(RealCourseList);
     }
+    const doCard = () => {
+        if (userInfo.userId) {
+            setCardVisible(true)
+        } else {
+            Alert.alert('温馨提示', '需要登录后才可以打卡哦', [
+                { text: '去登录', onPress: () => goLogin(false) },
+                { text: '再看看', style:'cancel' }
+            ])
+        }
+    }
     return (
         <ScrollView contentContainerStyle={styles.wrapper}>
             <Rank visible={rankVisible} onClose={() => setrankVisible(false)} userInfo={userInfo} />
             <Setting visible={settingVisible} onClose={() => setsettingVisible(false)} goLogin={goLogin} userInfo={userInfo} userInfoChange={userInfoChange} />
             <ErrorBook visible={errBookVisible} onClose={() => seterrBookVisible(false)} userInfo={userInfo} goLogin={goLogin} />
             <MissionCenter visible={missionVisible} onClose={() => setmissionVisible(false)} userInfo={userInfo} />
+            <PubCard visible={cardVisible} userInfo={userInfo} onClose={() => setCardVisible(false)} />
             <View style={styles.header}>
                 <View style={styles.footerNameBar}>
                     {
@@ -102,7 +116,11 @@ function MyInfo(props: Props) {
                     </View>
                     
                 </View>
-                <Icon name='aliwangwang' color='#38f' size={30} onPress={() => setmissionVisible(true)} />
+                <View style={styles.footerNameBar}>
+                    <AntIcon name='checksquareo' size={25} onPress={doCard} style={{marginRight: 20}} />
+                    <Icon name='bell' color='#000' size={25} onPress={() => setmissionVisible(true)} />
+                </View>
+                
             </View>
             <View style={styles.recentListWrapper}>
                 <Text style={{...styles.title, paddingBottom: 5}}>最近看过</Text>
@@ -123,18 +141,21 @@ function MyInfo(props: Props) {
                     <Text style={styles.title}>余额</Text><Text>{`¥${userInfo.restMoney || 0}`}</Text>
                 </View>
                 <View style={styles.navRow} onTouchEnd={() => setrankVisible(true)}>
-                    <Text style={styles.title}>排行榜</Text><Icon name='right' size={20} color='#ccc' />
+                    <Text style={styles.title}>排行榜</Text><Icon name='angle-right' size={25} color='#ccc' />
                 </View>
                 <View style={styles.navRow} onTouchEnd={() => seterrBookVisible(true)}>
-                    <Text style={styles.title}>错题本</Text><Icon name='right' size={20} color='#ccc' />
+                    <Text style={styles.title}>错题本</Text><Icon name='angle-right' size={25} color='#ccc' />
+                </View>
+                <View style={styles.navRow} onTouchEnd={() => history.push('/card')}>
+                    <Text style={styles.title}>动态广场</Text><Icon name='angle-right' size={25} color='#ccc' />
                 </View>
             </View>
             <View style={styles.navWrapper}>
                 <View style={styles.navRow} onTouchEnd={() => history.push('/newpage')}>
-                    <Text style={styles.title}>意见反馈</Text><Icon name='right' size={20} color='#ccc' />
+                    <Text style={styles.title}>在线直播</Text><Icon name='angle-right' size={25} color='#ccc' />
                 </View>
                 <View style={styles.navRow} onTouchEnd={() => setsettingVisible(true)}>
-                    <Text style={styles.title}>设置</Text><Icon name='right' size={20} color='#ccc' />
+                    <Text style={styles.title}>设置</Text><Icon name='angle-right' size={25} color='#ccc' />
                 </View>
             </View>
         </ScrollView>

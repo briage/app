@@ -5,11 +5,13 @@ import ImagePicker, {ImagePickerOptions} from 'react-native-image-picker';
 import { request } from '../../util';
 import { config } from '../../config/default';
 import { styles } from '../../style/upload';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 interface Props {
     onSubmit: (value) => any,
-    type: 'photo' | 'video' | 'mixed',
-    avatar: string
+    type?: 'photo' | 'video' | 'mixed',
+    avatar: string,
+    unAvatar?: boolean
 }
 
 function Upload(props: Props) {
@@ -58,6 +60,20 @@ function Upload(props: Props) {
         })
     }
     return (
+        props.unAvatar ? 
+        <View onTouchEnd={handleImagePicker}>
+            {
+                props.avatar ? 
+                    <Image style={styles.photo} source={{uri: props.avatar}} /> 
+                :
+                    <View style={styles.uploadImageWrapper}>
+                        <Icon name='camera' size={30} color='#ccc' />
+                        <Text style={{textAlign: 'center', fontSize: 12}}>照片</Text>
+                    </View> 
+            }
+            
+        </View>
+        :
         <View style={styles.uploadWrapper} onTouchEnd={handleImagePicker}>
             <Text style={styles.title} >头像</Text>
             {

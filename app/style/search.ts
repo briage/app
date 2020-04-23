@@ -34,15 +34,29 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     rankText: {
-        fontSize: 15
+        fontSize: 14
+    },
+    modalBtn: {
+        fontSize: 16,
+        color: '#38f',
+        padding: 10,
+        
+    },
+    modalHeaderWrapper: {
+        height: 50,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems:'center',
+        borderBottomColor:'#eee',
+        borderBottomWidth: 5,
+        borderStyle: 'solid'
     },
     detailWrapper: {
-        marginTop: 20
+       padding:10
     },
     title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        margin: 10
+        fontSize: 18,
+        fontWeight: 'bold'
     },
     moneyWrapper: {
         flexDirection:'row',

@@ -26,7 +26,8 @@ interface State {
     scrollY?: any,
     rank: number,
     visible: boolean,
-    originData: any[]
+    originData: any[],
+    loading: boolean
 }
 
 function reducer(state, action) {
@@ -53,7 +54,8 @@ function Search(props) {
         total: 0,
         rank: 0,
         visible: false,
-        originData: []
+        originData: [],
+        loading: false
     }
     const color = '#38f';
     const {height} = Dimensions.get('window');
@@ -72,7 +74,6 @@ function Search(props) {
         data: state.listData,
         total: state.total,
         onRefresh: () => {
-            dispatch({key: 'listData', value: []});
             return onFetchCourseList(0);
         },
         onEndReached: () => {
@@ -81,7 +82,8 @@ function Search(props) {
                 onFetchCourseList(newState.queryData.offset + 1);
             }
         },
-        nameKey: 'courseName'
+        nameKey: 'courseName',
+        loading: state.loading
     }
 
     const onFetchCourseList = (offset, value?: string, spec?: boolean) => {
@@ -104,19 +106,20 @@ function Search(props) {
             queryData.endMoney = '0';
             dispatch({key: 'queryData', value: queryData})
         }
+        dispatch({key: 'loading', value: true});
         return request('/course/queryCourseList', queryData)
         .then(res => {
             if (res && res.success) {
+                let listData = _.cloneDeep(state.listData);
                 if (offset > 0) {
-                    const listData = _.cloneDeep(state.listData);
                     listData.push(...res.data)
-                    dispatch({key: 'listData', value: listData});
-                    dispatch({key: 'originData', value: listData});
                 } else {
-                    dispatch({key: 'listData', value: res.data});
-                    dispatch({key: 'originData', value: res.data});
+                    listData = res.data;
                 }
-                dispatch({key: 'total', value: res.total})
+                dispatch({key: 'listData', value: listData});
+                dispatch({key: 'originData', value: listData});
+                dispatch({key: 'total', value: res.total});
+                dispatch({key: 'loading', value: false})
             }
         })
     }
@@ -155,6 +158,10 @@ function Search(props) {
                 onRequestClose={() => dispatch({key: 'visible', value: false})}
                 animationType='slide'
             >
+                <View style={styles.modalHeaderWrapper}>
+                    <Text style={styles.modalBtn} onPress={() => dispatch({key: 'visible', value: false})}>关闭</Text>
+                    <Text style={styles.modalBtn} onPress={detailSearch}>确认</Text>
+                </View>
                 <View style={styles.detailWrapper}>
                     <Text style={styles.title}>标签</Text>
                     <MultifySelect value={state.queryData.labels} onChange={handleLableBtnClick} options={LABELS} />
@@ -168,10 +175,7 @@ function Search(props) {
                             <Input onChange={(value) => dispatch({key: ['queryData', 'endMoney'], value})} value={state.queryData.endMoney} /> 
                         </View>
                     </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <Button type='info' style={{borderRadius: 20}} onPress={() => dispatch({key: 'visible', value: false})}>关闭</Button>
-                        <Button type='info' style={{borderRadius: 20}} onPress={detailSearch}>确认</Button>
-                    </View>
+                    
                 </View>
             </Modal>
             <View style={styles.searchBar}>

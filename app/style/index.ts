@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     dataShowHeader: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#9BCD9B',
+        backgroundColor: '#3af',
         width: '30%',
         borderBottomRightRadius: 40,
         borderTopRightRadius: 40
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     subTitle: {
-        fontSize: 20
+        fontSize: 18
     },
     subTitleMore: {
         color: '#38f',

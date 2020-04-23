@@ -7,6 +7,7 @@ import VideoPlayer from 'react-native-video-controls';
 import Orientation from 'react-native-orientation';
 import _ from 'lodash';
 import { styles } from '../style/course';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const { useEffect, useReducer, useState } = React;
 
@@ -222,7 +223,7 @@ function Course(props) {
                         renderItem={({item}) => (
                             <View style={styles.subCourseItemWrapper} onTouchEnd={handleListItem.bind(this, item)} key={item.index}>
                                 <Text style={styles.teacherName}> 第{item.index}节 </Text>
-                                <Text style={styles.teacherName}> {item.subcourseName} </Text>
+                                <Text style={styles.teacherName}> <Icon name='play-circle' size={20} /> {item.subcourseName} </Text>
                             </View>
                         )}
                     />

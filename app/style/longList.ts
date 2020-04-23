@@ -1,10 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
+const { height } = Dimensions.get('window');
 const styles = StyleSheet.create({
     longListWrapper: {
         padding: 10,
-        minHeight: 500,
-        backgroundColor: '#fff'
+        maxHeight: height - 110,
+        backgroundColor: '#fff',
     },
     itemWrapper: {
         display: 'flex',
