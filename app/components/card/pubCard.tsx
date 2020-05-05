@@ -60,7 +60,7 @@ function PubCard(props) {
                 <View style={styles.headerWrapper}>
                     <Icon name='left' size={20} onPress={onClose} />
                     <Text style={styles.title}>打卡</Text>
-                    <Text onPress={(state.message || state.img_src) && save} style={{...styles.btn, ...!(state.message || state.img_src) && {opacity: 0.5}}}>发表</Text>
+                    <Text onPress={(state.message && state.img_src) ? save : () => {}} style={{...styles.btn, ...!(state.message && state.img_src) && {opacity: 0.5}}}>发表</Text>
                 </View>
                 <View style={styles.userInfoWrapper}>
                     <Image source={{uri: userInfo.avatar}} style={styles.avatar} />

@@ -18,12 +18,14 @@ const styles = StyleSheet.create({
         minHeight: 490
     },
     title: {
-        fontSize: 17,
+        fontSize: 16,
+        color: '#666'
     },
     option: {
-        fontSize: 17,
+        fontSize: 14,
         padding: 5,
-        color: 'skyblue'
+        paddingTop: 15,
+        color: '#666'
     },
     answerArea: {
         zIndex: 1000,

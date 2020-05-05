@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     },
     btnText: {
         fontSize: 12,
-        paddingLeft: 6
+        paddingLeft: 4
     },
     listWrapper: {
         padding: 5,

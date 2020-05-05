@@ -110,35 +110,35 @@ function TestPaper(props) {
             </View>
             <View style={styles.btnWrapper}>
                 <View onTouchEnd={() => history.push('/search-testpaper')} style={styles.btnItem}>
-                    <Icon name='folder' color='#38f' size={40} />
+                    <Icon name='envelope-o' color='#38f' size={35} />
                     <Text style={styles.btnText}>套题</Text>
                 </View>
                 <View onTouchEnd={ItemTest.bind(this, 3)} style={styles.btnItem}>
-                    <Icon name='headphones' color='#38f' size={40} />
+                    <Icon name='headphones' color='#38f' size={35} />
                     <Text style={styles.btnText}>听力</Text>
                 </View>
                 <View onTouchEnd={ItemTest.bind(this, 2)} style={styles.btnItem}>
-                    <Icon name='pencil-square' color='#38f' size={40} />
+                    <Icon name='pencil' color='#38f' size={35} />
                     <Text style={styles.btnText}>作文</Text>                    
                 </View>
                 <View onTouchEnd={ItemTest.bind(this, 0)} style={styles.btnItem}>
-                    <Icon name='check-circle-o' color='#38f' size={40} />
+                    <Icon name='check-circle-o' color='#38f' size={35} />
                     <Text style={styles.btnText}>单选</Text>
                 </View>
                 <View onTouchEnd={ItemTest.bind(this, 1)} style={styles.btnItem}>
-                    <Icon name='check-square' color='#38f' size={40} />
+                    <Icon name='check-square' color='#38f' size={35} />
                     <Text style={styles.btnText}>多选</Text>
                 </View>
                 <View onTouchEnd={() => setErrorBookVisible(true)} style={styles.btnItem}>
-                    <Icon name='times-circle' color='#38f' size={40} />
+                    <Icon name='times-circle' color='#38f' size={35} />
                     <Text style={styles.btnText}>错题</Text>
                 </View>
                 <View onTouchEnd={levelTest} style={styles.btnItem}>
-                    <Icon name='tumblr-square' color='#38f' size={40} />
+                    <Icon name='tumblr-square' color='#38f' size={35} />
                     <Text style={styles.btnText}>测评</Text>
                 </View>
                 <View onTouchEnd={() => history.push('/game')} style={styles.btnItem}>
-                    <Icon name='gamepad' color='#38f' size={40} />
+                    <Icon name='glide' color='#38f' size={35} />
                     <Text style={styles.btnText}>游戏</Text>
                 </View>
             </View>

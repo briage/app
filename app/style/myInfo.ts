@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#ddd',
+        backgroundColor: '#fff',
         opacity: 0.9,
         height: 70,
         zIndex: 1000,
@@ -92,12 +92,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        margin: 5,
+        margin: 2,
         marginLeft: 10,
         marginRight: 10,
-        backgroundColor: '#fdc6c3',
+        backgroundColor: '#F0F8FF',
         borderRadius: 5,
-        height: 60
+        height: 80
     },
     rankItemUserWrapper: {
         flexDirection: 'row',
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     rankListWrapper: {
-        backgroundColor: '#caeae5',
+        backgroundColor: '#fff',
         opacity: 0.9
     },
     rankNavBar: {
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     rankTitle: {
         fontSize: 16,
         padding: 5,
-        color: '#fff'
+        color: '#666'
     },
     footerNameBar: {
         flexDirection: 'row',

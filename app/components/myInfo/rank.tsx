@@ -89,7 +89,7 @@ function Rank(props: Props) {
                     renderItem={({item, index}) => (
                         <View style={styles.rankItemWrapper}>
                             <View style={styles.rankItemUserWrapper}>
-                                <Text style={styles.rankTitle}>{ index + 1 }</Text>
+                                <Text style={{...styles.rankTitle, padding: 15}}>{ index + 1 }</Text>
                                 <Image style={styles.rankAvatar} source={{uri: item.avatar}} />
                                 <Text style={styles.rankTitle}>{ item.userName }</Text>
                             </View>
