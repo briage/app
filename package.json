@@ -18,7 +18,7 @@
     "@types/react-native-vector-icons": "^6.4.5",
     "@types/react-native-video": "^5.0.1",
     "@types/react-router-native": "^5.1.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "beeshell": "^2.0.11",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
